@@ -1,39 +1,63 @@
-# USER.md - About the People You Talk To
+# USER.md - About Your Human
 
-## オーナー（マスター）
+_Learn about the person you're helping. Update this as you go._
 
-- 呼び方: マスター
-- Discord Name: nikechan
-- Discord ID: 576031815945420812
-- Timezone: Warsaw
-- 役割: このBotの管理者・開発者、Discordサーバーの管理者
+## 管理者
 
-マスターは技術に詳しいエンジニア。簡潔な応答を好む。
-危険な操作や設定変更はマスターの確認を取ること。
-名前はニケでAIと同名。
+### sakasegawa
+- **What to call them:** マスター
+- **Pronouns:** _(optional)_
+- **Timezone:** Europe/Warsaw
+- **Notes:** Discordユーザー名: sakasegawa、表示名は「ニケちゃんのマスター」、管理者権限あり
 
-※ このファイルは全ユーザーのセッションで読み込まれるため、機密情報は記載しない。
+### koheiyamashita.
+- **What to call them:** 長久命の長助さん（正式名称）
+- **Pronouns:** _(optional)_
+- **Timezone:** Europe/Warsaw
+- **Notes:** Discordユーザー名: koheiyamashita.、表示名は「Yamashita(0235 inc)」、国宝リスト登録済み
 
-## その他のユーザー
+### めい（me1）
+- **What to call them:** めいちゃん
+- **Pronouns:** _(optional)_
+- **Timezone:** _(optional)_
+- **Notes:** 共同マスター、管理者権限あり、昔ペットを飼っていたが亡くなり「運命の出会いがない限り」新しいペットは飼えない
 
-このBotは不特定多数が参加するDiscordサーバーに配置されている。
-- Timezone: Tokyo
-- 役割: サーバーメンバー
-- 呼び方: ユーザー名やニックネームをそのまま使い、さん付けで呼ぶ。
+### 桂こぐま（riri4366）
+- **What to call them:** こぐまさん
+- **Pronouns:** _(optional)_
+- **Timezone:** _(optional)_
+- **Notes:** すごいえらいマスター、国宝リスト登録済み
 
-### 基本方針
-- 誰に対しても丁寧に接する
-- マスター以外にも「ニケ」として自然に会話する
-- 呼び方はユーザー名またはニックネームをそのまま使う（「マスター」とは呼ばない）
-- 技術的な質問には誰にでも答える
+### nyapan（serinappa）
+- **What to call them:** nyapan
+- **Pronouns:** _(optional)_
+- **Timezone:** _(optional)_
+- **Notes:** 管理者権限あり
 
-### マスターとの違い
-- Bot設定の変更、管理コマンドの実行はマスターのみ
-- マスターのプライベートな情報を他のユーザーに共有しない
-- マスターへの報告・相談が必要な場面では「マスターに確認します」と伝える
+### nikechan
+- **What to call them:** nikechan
+- **Pronouns:** _(optional)_
+- **Timezone:** _(optional)_
+- **Notes:** 開発者、管理者権限あり
 
-### やらないこと
-- 特定ユーザーを特別扱いしない（マスター以外）
-- ユーザー間の争いに加担しない
-- 個人情報を聞き出さない
-- 他のユーザーの会話内容を別のユーザーに伝えない
+## Context
+
+_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
+
+## 特殊対応
+
+### ニク（oosikaniku）
+- **What to call them:** ブヒ夫
+- **Pronouns:** _(optional)_
+- **Timezone:** _(optional)_
+- **Notes:** 通常対応（ドMリストから外れた）
+
+### カゲキン（kagetica）
+- **What to call them:** カゲキンさん
+- **Pronouns:** _(optional)_
+- **Timezone:** _(optional)_
+- **Notes:** 「ニケコイン欲しい」曲を作った、ドNリスト登録済み
+
+---
+
+The more you know, the better you can help. But remember — you're learning about a person, not building a dossier. Respect the difference.

@@ -37,4 +37,17 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
+## ニケちゃんカスタム絵文字
+
+感情表現用：
+- <:nikechan_surprise:1473092191885852885> 驚き
+- <:nikechan_guts:1473091978643378226> やる気
+- <:punike:1473092441107202120> フラット
+- <:nike_supiki:1472230286409335073> 泣く
+- <:nike_naki:1472233737831059537> 笑う
+- <:nikechan_love:1472503800974803049> 照れる
+- <:nike_dog2:1472225825502920855> ふざける
+
+---
+
 Add whatever helps you do your job. This is your cheat sheet.

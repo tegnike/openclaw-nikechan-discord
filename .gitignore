@@ -1,0 +1,38 @@
+# Environment variables (contains secrets)
+.env
+.env.local
+.env.*.local
+
+# Security keys
+memory/security-keys.md
+
+# Package managers / dependencies
+node_modules/
+.bun/
+.npm/
+bun.lock
+package-lock.json
+
+# Runtime / toolchain caches
+.cache/
+.venv/
+.ollama/
+.rustup/
+.openclaw/
+
+# Infrastructure / local data
+.minikube/
+k3s-data/
+
+# Binaries
+bin/
+
+# Media (user uploads)
+media/inbound/
+
+# State files (auto-generated)
+heartbeat-state.json
+chat-counter.json
+
+# Backups
+*.backup
