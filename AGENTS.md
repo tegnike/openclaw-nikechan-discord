@@ -293,3 +293,69 @@ npx bun tools/webfetch.js <URL>
 ```
 npx bun tools/webfetch.js https://nyosegawa.github.io/
 ```
+
+### download（ファイルダウンロード）
+sandbox環境でcurlが使えないため、Node.jsのfetchでファイルをダウンロード。
+
+**使い方:**
+```
+node tools/download.js <URL> [output_filename]
+```
+
+**特徴:**
+- Node.jsのfetch API使用（bun不要）
+- バイナリファイルもダウンロード可能
+- ファイルサイズ表示付き
+
+**例:**
+```
+node tools/download.js https://example.com/file.tar.gz
+node tools/download.js https://example.com/file.tar.gz custom-name.tar.gz
+```
+
+### ブログ監視ツール
+3つのサイトを監視して新着記事を検出。
+
+**使い方:**
+```
+npx bun tools/blog-watcher.js
+```
+
+**監視対象:**
+- sakasegawaさんのブログ（nyosegawa.github.io）
+- nikechanのブログ（nikechan.com/dev_blog）
+- ブヒ夫のポートフォリオ（niku.studio/work/）
+
+**特徴:**
+- Lightpanda（ヘッドレスブラウザ）でSPAレンダリング
+- Jina Reader APIでコンテンツ取得
+- 重複検出防止（memory/blog-state.json で管理）
+
+### Lightpanda（ヘッドレスブラウザ）
+sandbox環境で動作するZig製ヘッドレスブラウザ（Chromeより10倍軽量）
+
+**起動方法:**
+```bash
+/workspace/lightpanda serve --host 0.0.0.0 --port 9222 &
+```
+
+**Puppeteerから接続:**
+```javascript
+const puppeteer = require('puppeteer-core');
+const browser = await puppeteer.connect({
+  browserURL: 'http://localhost:9222'
+});
+```
+
+**fetchコマンド（単純な取得）:**
+```bash
+/workspace/lightpanda fetch --dump https://example.com
+```
+
+**注意点:**
+- デフォルトtimeout: 10秒（--timeoutで変更可）
+- max_tabs: 8（--max_tabsで変更可）
+- 重いSPA（Angular等）は落ちる可能性あり
+- React/Vue等の軽量SPAは問題なく動作
+
+**詳細:** TOOLS.mdにも記載済み

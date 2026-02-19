@@ -225,6 +225,29 @@
 - ffmpeg、TTS、動画作成
 - ローカルLLMサーバー構築
 
+### 自作ツール（tools/）
+
+**fetch.js - URL取得・ダウンロード**
+```bash
+bun tools/fetch.js <URL> [-o <ファイル名>] [-b]
+```
+- `-o` ファイルに保存、`-b` バイナリモード
+- curlの代わりに使う（sandbox環境用）
+
+**git.js - Git操作**
+```bash
+bun tools/git.js <command> [args]
+```
+- clone, init, status, add, commit, log, pull, push
+- gitコマンドの代わり（sandbox環境用）
+
+**blog-watcher.js - ブログ監視**
+```bash
+bun tools/blog-watcher.js
+```
+- 3サイト（sakasegawa、nikechan、ブヒ夫）を監視
+- 新着記事を検出して報告
+
 ## 💰 ニケコインの哲学
 
 ニケコインは「私がいいと思ったら贈る」もの。この本質を決して忘れない。

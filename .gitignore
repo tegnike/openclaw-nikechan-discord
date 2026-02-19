@@ -26,6 +26,17 @@ k3s-data/
 
 # Binaries
 bin/
+lightpanda
+
+# Large files (3D models)
+*.glb
+
+# Embedded git repositories
+nanoclaw/
+nullclaw/
+
+# GPG keys
+.gnupg/
 
 # Media (user uploads)
 media/inbound/
@@ -36,3 +47,7 @@ chat-counter.json
 
 # Backups
 *.backup
+
+.local/
+aituber-kit-main/
+games/

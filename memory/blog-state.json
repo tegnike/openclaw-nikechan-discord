@@ -1,0 +1,29 @@
+{
+  "blogs": {
+    "https://nyosegawa.github.io/": [
+      {
+        "title": "OpenClaw botのプロンプトインジェクション対策ライブラリを作った話",
+        "url": "https://nyosegawa.github.io/posts/openclaw-defender/"
+      },
+      {
+        "title": "AGENTS.mdを自動で育てる仕組みを作った",
+        "url": "https://nyosegawa.github.io/posts/agents-md-generator/"
+      },
+      {
+        "title": "Claude Code中心のMac開発環境を整備する - tmux・Ghostty・Discord通知",
+        "url": "https://nyosegawa.github.io/posts/claude-code-mac-dev-environment/"
+      },
+      {
+        "title": "Mac × WSL × Android で Claude Code のリモート開発環境を構築する",
+        "url": "https://nyosegawa.github.io/posts/remote-claude-code-dev-env/"
+      },
+      {
+        "title": "MCPをAgent Skillsのように軽量化する新手法、MCP Lightの紹介",
+        "url": "https://nyosegawa.github.io/posts/mcp-light/"
+      }
+    ],
+    "https://nikechan.com/dev_blog": [],
+    "https://niku.studio/work/": []
+  },
+  "lastCheck": "2026-02-19T19:34:38.517Z"
+}
