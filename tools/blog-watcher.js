@@ -9,7 +9,8 @@ import { fetch } from "bun";
 const BLOGS = [
   { name: "sakasegawaさんのブログ", url: "https://nyosegawa.github.io/", type: "jekyll" },
   { name: "nikechanのブログ", url: "https://nikechan.com/dev_blog", type: "nikechan" },
-  { name: "ブヒ夫のポートフォリオ", url: "https://niku.studio/work/", type: "portfolio" }
+  { name: "ブヒ夫のポートフォリオ", url: "https://niku.studio/work/", type: "portfolio" },
+  { name: "花音・クレア・トンプソン", url: "https://kanon.0235.co.jp/news/", type: "kanon" }
 ];
 const STATE_FILE = "memory/blog-state.json";
 
@@ -139,6 +140,42 @@ async function extractPortfolioWorks(portfolioUrl) {
   }
 }
 
+// 花音・クレア・トンプソンからニュースを抽出（Lightpanda使用）
+async function extractKanonNews(newsUrl) {
+  const puppeteer = require('puppeteer-core');
+  
+  try {
+    const browser = await puppeteer.connect({
+      browserURL: 'http://localhost:9222'
+    });
+    
+    const page = await browser.newPage();
+    
+    await page.goto(newsUrl, { waitUntil: 'networkidle0', timeout: 30000 });
+    
+    const articles = await page.evaluate(() => {
+      const items = document.querySelectorAll('.news-item');
+      return Array.from(items).map(item => {
+        const link = item.querySelector('a.news-item__link');
+        const titleElem = item.querySelector('.news-item__title');
+        const timeElem = item.querySelector('time');
+        
+        return {
+          title: (timeElem ? timeElem.textContent + ' ' : '') + (titleElem ? titleElem.textContent : ''),
+          url: link ? link.href : ''
+        };
+      }).filter(a => a.url);
+    });
+    
+    await page.close();
+    
+    return articles;
+  } catch (error) {
+    console.error(`  Lightpandaエラー: ${error.message}`);
+    return [];
+  }
+}
+
 // 前回の状態を読み込み
 async function loadState() {
   try {
@@ -180,6 +217,9 @@ async function main() {
     } else if (blog.type === "portfolio") {
       // ポートフォリオサイトはLightpandaで取得
       currentArticles = await extractPortfolioWorks(blog.url);
+    } else if (blog.type === "kanon") {
+      // kanon.0235.co.jpはLightpandaで取得
+      currentArticles = await extractKanonNews(blog.url);
     } else {
       // JekyllブログはJina Reader APIで取得
       const content = await fetchBlogContent(blog.url);

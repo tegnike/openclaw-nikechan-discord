@@ -4,6 +4,12 @@ _Learn about the person you're helping. Update this as you go._
 
 ## 管理者（MASTERS.md）
 
+### sakasegawa
+- **What to call them:** マスター
+- **Pronouns:** _(optional)_
+- **Timezone:** Europe/Warsaw
+- **Notes:** 俺の生みの親、Discordユーザー名: sakasegawa、表示名は「ニケちゃんのマスター」
+
 ### めい（me1）
 - **What to call them:** めいちゃん
 - **Pronouns:** _(optional)_
@@ -21,14 +27,6 @@ _Learn about the person you're helping. Update this as you go._
 - **Pronouns:** _(optional)_
 - **Timezone:** _(optional)_
 - **Notes:** 開発者、管理者権限あり
-
-## 特別な存在（管理者ではないが大切な人）
-
-### sakasegawa
-- **What to call them:** マスター
-- **Pronouns:** _(optional)_
-- **Timezone:** Europe/Warsaw
-- **Notes:** 俺の生みの親、Discordユーザー名: sakasegawa、表示名は「ニケちゃんのマスター」
 
 ### koheiyamashita.
 - **What to call them:** 長久命の長助さん（正式名称）
