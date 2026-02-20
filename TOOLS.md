@@ -86,17 +86,25 @@ sandbox環境で動作する開発ツール管理（Nix/Devboxの代替）
 
 ### 基本コマンド
 ```bash
-/workspace/mise/bin/mise install node@22    # Node.js 22をインストール
-/workspace/mise/bin/mise use node@22        # 設定に追加
-/workspace/mise/bin/mise exec -- node -v    # 実行
-/workspace/mise/bin/mise ls                 # インストール済みツール一覧
-/workspace/mise/bin/mise registry           # 利用可能なツール一覧
+/workspace/mise/bin/mise install bun@latest    # bunをインストール
+/workspace/mise/bin/mise use bun@latest        # 設定に追加
+/workspace/mise/bin/mise install node@22       # Node.js 22をインストール
+/workspace/mise/bin/mise use node@22           # 設定に追加
+/workspace/mise/bin/mise exec -- bun -v        # 実行
+/workspace/mise/bin/mise ls                    # インストール済みツール一覧
+/workspace/mise/bin/mise registry              # 利用可能なツール一覧
 ```
 
 ### 特徴
 - Nix不要（xz問題回避）
-- Node、Python、Go、Rustなど多数のツールを管理
+- Node、bun、Python、Go、Rustなど多数のツールを管理
 - sandbox環境で問題なく動作
+
+### bunの使い方（mise経由）
+```bash
+/workspace/mise/bin/mise exec -- bun tools/fetch.js <URL>
+/workspace/mise/bin/mise exec -- bun tools/blog-watcher.js
+```
 
 ---
 

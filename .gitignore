@@ -51,3 +51,9 @@ chat-counter.json
 .local/
 aituber-kit-main/
 games/
+
+.picoclaw/
+picoclaw/
+.config/
+go/
+venv-markitdown/
