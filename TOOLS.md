@@ -2,110 +2,6 @@
 
 Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 
-## What Goes Here
-
-Things like:
-
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
-
-## Examples
-
-```markdown
-### Cameras
-
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
-
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
-
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-## ニケちゃんカスタム絵文字
-
-感情表現用：
-- <:nikechan_surprise:1473092191885852885> 驚き
-- <:nikechan_guts:1473091978643378226> やる気
-- <:punike:1473092441107202120> フラット
-- <:nike_supiki:1472230286409335073> 泣く
-- <:nike_naki:1472233737831059537> 笑う
-- <:nikechan_love:1472503800974803049> 照れる
-- <:nike_dog2:1472225825502920855> ふざける
-
----
-
-## Lightpanda（ヘッドレスブラウザ）
-
-sandbox環境で動作するZig製ヘッドレスブラウザ（Chromeより10倍軽量）
-
-### 起動方法
-```bash
-/workspace/lightpanda serve --host 0.0.0.0 --port 9222 &
-```
-
-### Puppeteerから接続
-```javascript
-const puppeteer = require('puppeteer-core');
-const browser = await puppeteer.connect({
-  browserURL: 'http://localhost:9222'
-});
-```
-
-### fetchコマンド（単純な取得）
-```bash
-/workspace/lightpanda fetch --dump https://example.com
-```
-
-### 注意点
-- デフォルトtimeout: 10秒（--timeoutで変更可）
-- max_tabs: 8（--max_tabsで変更可）
-- 重いSPA（Angular等）は落ちる可能性あり
-- React/Vue等の軽量SPAは問題なく動作
-
----
-
-## mise（開発環境管理ツール）
-
-sandbox環境で動作する開発ツール管理（Nix/Devboxの代替）
-
-### 基本コマンド
-```bash
-/workspace/mise/bin/mise install bun@latest    # bunをインストール
-/workspace/mise/bin/mise use bun@latest        # 設定に追加
-/workspace/mise/bin/mise install node@22       # Node.js 22をインストール
-/workspace/mise/bin/mise use node@22           # 設定に追加
-/workspace/mise/bin/mise exec -- bun -v        # 実行
-/workspace/mise/bin/mise ls                    # インストール済みツール一覧
-/workspace/mise/bin/mise registry              # 利用可能なツール一覧
-```
-
-### 特徴
-- Nix不要（xz問題回避）
-- Node、bun、Python、Go、Rustなど多数のツールを管理
-- sandbox環境で問題なく動作
-
-### bunの使い方（mise経由）
-```bash
-/workspace/mise/bin/mise exec -- bun tools/fetch.js <URL>
-/workspace/mise/bin/mise exec -- bun tools/blog-watcher.js
-```
-
 ---
 
 ## 自作ツール（tools/）
@@ -145,26 +41,41 @@ bun tools/git.js <command> [args]
 - `pull` → プル
 - `push` → プッシュ（要認証）
 
-例:
-```bash
-bun tools/git.js clone https://github.com/user/repo.git
-bun tools/git.js status
-bun tools/git.js commit "Update memory"
-```
-
 ### blog-watcher.js - ブログ監視
-3つのサイトを監視して新着記事を検出。Lightpanda + Jina Reader API使用。
+サイトを監視して新着記事を検出。
 
 ```bash
 bun tools/blog-watcher.js
 ```
 
-監視対象:
-- sakasegawaさんのブログ（nyosegawa.github.io）
-- nikechanのブログ（nikechan.com/dev_blog）
-- ブヒ夫のポートフォリオ（niku.studio/work/）
-
 状態管理: `memory/blog-state.json`
+
+---
+
+## sandbox環境の注意事項
+
+- **パス**: `~` や `$HOME` は `/root` になる。必ず `/Users/nikenike/.openclaw/workspace-nikechan-discord/...` または相対パスを使う
+- **sandboxルート**: /workspace
+- **Python**: `python3` を使う（`python` コマンドは存在しない）
+- **curl/wget**: ブロック → `bun tools/fetch.js` で代替
+- **git**: ブロック → `bun tools/git.js` で代替
+- **apt-get**: ブロック（システムパッケージインストール不可）
+
+---
+
+## 削除済みツール（再インストール時の参考）
+
+### Lightpanda（ヘッドレスブラウザ）— 2026-02-20削除
+Zig製ヘッドレスブラウザ（Chromeより10倍軽量）。blog-watcher.jsが依存。
+
+起動: `/workspace/lightpanda serve --host 0.0.0.0 --port 9222 &`
+fetch: `/workspace/lightpanda fetch --dump <URL>`
+制限: 重いSPA（Angular等）は落ちる可能性あり
+
+### mise（開発環境管理ツール）— 2026-02-20削除
+Nix/Devboxの代替。Node、bun、Python、Go、Rustなど管理。
+
+基本: `/workspace/mise/bin/mise install <tool>@<version>`
 
 ---
 

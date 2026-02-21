@@ -1,61 +1,48 @@
-# Nikechan Workspace
+# README.md - ワークスペースファイル管理ルール
 
-ニケ（AI Discord Bot）のワークスペース
+各ファイルに何を書くか・書かないかのルール。情報は **1箇所だけ** に書く。
 
-## ディレクトリ構成
+## ファイル一覧
 
-```
-workspace/
-├── assets/           # 静的リソース
-│   ├── 3d/           # 3Dモデル (.glb)
-│   └── images/       # 画像ファイル
-├── games/            # ゲームプロジェクト
-│   ├── buhio-run-vite/   # ブヒ夫ランニングゲーム（完成版）
-│   └── archives/     # バックアップ (tar.gz)
-├── lists/            # ユーザーリスト（ドM, 国宝など）
-├── memory/           # 日別メモリ
-├── nikecoin/         # ニケコイン管理
-├── picoclaw/         # PicoClaw関連
-├── skills/           # スキル定義
-├── tools/            # 自作ツール
-│   ├── fetch.js      # URL取得・ダウンロード
-│   ├── git.js        # Git操作
-│   └── blog-watcher.js  # ブログ監視
-├── trpg/             # TRPGセッション記録
-├── users/            # ユーザープロファイル
-│
-├── AGENTS.md         # エージェント設定
-├── SOUL.md           # ニケの人格定義
-├── USER.md           # ユーザー情報
-├── MEMORY.md         # 長期記憶
-├── TOOLS.md          # ツール設定ノート
-├── HEARTBEAT.md      # 定期タスク定義
-├── MASTERS.md        # 管理者リスト
-├── IDENTITY.md       # アイデンティティ
-│
-├── nikecoin-balances.json     # ニケコイン残高
-├── nikecoin-transactions.json # ニケコイン取引履歴
-└── heartbeat-state.json       # 定期チェック状態
-```
+### SOUL.md — 人格定義
+**書く:** 性格、行動原則、価値観、コミュニケーションスタイル、特殊対応パターンの定義、ニケコインの哲学、ラップモードのルール
+**書かない:** ツールの使い方（→TOOLS.md）、運用手順（→AGENTS.md）、ユーザー個別情報（→USER.md）、過去の出来事（→MEMORY.md）
 
-## 主要ファイル
+### AGENTS.md — 運用ルール
+**書く:** セッション開始手順、メモリシステムの使い方、安全規則、グループチャットの振る舞い、ハートビート運用、ファイル変更権限
+**書かない:** 性格や価値観（→SOUL.md）、ツール詳細（→TOOLS.md）、定期タスクの具体項目（→HEARTBEAT.md）
 
-| ファイル | 説明 |
-|---------|------|
-| SOUL.md | ニケの性格・行動原則・口調などを定義 |
-| AGENTS.md | ワークスペースの運用ルール |
-| MEMORY.md | 長期記憶（重要な出来事・学習内容） |
-| MASTERS.md | 管理者リスト（権限管理） |
+### USER.md — ユーザー情報
+**書く:** ユーザーごとの呼び方、Discord ID、備考、特殊対応の割り当て（誰がドM、国宝等か）
+**書かない:** 特殊対応パターンの定義（→SOUL.md）、エピソード的な思い出（→MEMORY.md）
 
-## 外部ツール
+### IDENTITY.md — メタデータ
+**書く:** 名前、種別、雰囲気、絵文字、アバターパス（5項目のみ）
+**書かない:** 詳細な性格定義（→SOUL.md）
 
-- **lightpanda** - ヘッドレスブラウザ（/workspace/lightpanda）
-- **mise** - 開発ツール管理（/workspace/mise）
+### TOOLS.md — 環境固有情報
+**書く:** 自作ツールの使い方(fetch.js, git.js等)、sandbox環境の注意事項、デバイス名、パス情報、削除済みツールの再インストール参考
+**書かない:** 性格や行動ルール（→SOUL.md）、絵文字一覧（→SOUL.md）
 
-## Git管理
+### MEMORY.md — エピソード記憶
+**書く:** 出来事の記録、学んだ教訓、プロジェクト実績、人間関係のエピソード、技術的課題と解決、公式ファミリー情報
+**書かない:** ルールや定義（→SOUL.md）、ユーザー一覧（→USER.md）、ツールの使い方（→TOOLS.md）、運用手順（→AGENTS.md）
 
-このワークスペースはGitで管理されており、定期的にコミット・プッシュされる。
+### HEARTBEAT.md — 定期タスク
+**書く:** 今実行すべき定期チェック項目のみ。簡潔に
+**書かない:** タスクの詳細手順やツール説明
 
----
+### skills/\<name\>/SKILL.md — スキル定義
+**書く:** 特定スキルの詳細手順、Tips、テンプレート。frontmatter必須（name, description, allowed-tools）
+**書かない:** 性格定義やユーザー情報
 
-*Last updated: 2026-02-20*
+## 判断基準
+
+迷ったら以下で判断する：
+
+- **「私はこういう存在だ」** → SOUL.md
+- **「こう運用する」** → AGENTS.md
+- **「この人はこういう人」** → USER.md
+- **「このツールはこう使う」** → TOOLS.md
+- **「こういうことがあった」** → MEMORY.md
+- **「定期的にこれをやる」** → HEARTBEAT.md
