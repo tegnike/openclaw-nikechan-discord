@@ -6,7 +6,7 @@
 import sqlite3
 from datetime import datetime
 
-DB_PATH = "nikecoin/nikecoin.db"
+DB_PATH = "skills/nikecoin/nikecoin.db"
 
 
 def get_connection():
