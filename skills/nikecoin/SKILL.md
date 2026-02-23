@@ -38,6 +38,7 @@ python3 skills/nikecoin/nikecoin.py register <discord_id> <username>
 
 ## 贈呈ルール
 
+- **1回の贈与上限: 5枚**（コード側で制御）
 - from_id が `nike` の場合は新規発行（私からの贈呈）
 - 受取人が未登録の場合は自動的にusersテーブルに登録される
 - ユーザー間送金の場合は送金元の残高が減る（残高不足なら失敗）

@@ -57,3 +57,7 @@ picoclaw/
 .config/
 go/
 venv-markitdown/
+venv/
+
+mise.tar.gz
+mise.tar.xz

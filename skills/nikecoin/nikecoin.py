@@ -43,12 +43,22 @@ def get_balance(discord_id: str) -> int:
         conn.close()
 
 
+MAX_GIVE_AMOUNT = 5
+
+
 def give_coin(from_id: str, to_id: str, amount: int, reason: str = "") -> bool:
     """
     コインを贈与する
     from_id が "nike" の場合は新規発行（私からの贈呈）
     受取人が未登録の場合は自動的にusersテーブルに登録する
+    1回の贈与上限は MAX_GIVE_AMOUNT 枚
     """
+    if amount > MAX_GIVE_AMOUNT:
+        print(f"エラー: 1回の贈与上限は{MAX_GIVE_AMOUNT}枚です（指定: {amount}枚）")
+        return False
+    if amount <= 0:
+        print("エラー: 1枚以上を指定してください")
+        return False
     conn = get_connection()
     cur = conn.cursor()
     try:
