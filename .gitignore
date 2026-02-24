@@ -79,3 +79,37 @@ archive/
 # Cloned repos / submodules
 voltagent-skills/
 nikenike-blog/
+
+# Python cache
+**/__pycache__/
+
+# Encrypted files
+*.nikecipher
+*.enc
+*.enc.bak
+
+# Downloaded files
+downloads/
+
+# Backup directories
+backup/
+backup_*/
+
+# Auto-generated / temporary
+learning_history.json
+nikechan_learning.py
+mise-install.sh
+mise/
+
+# Duplicate / test files
+SOUL_original.md
+SOUL_test.md
+SOUL.json
+AGENTS_decrypted.md
+README.md
+
+# Symlinks to sensitive data
+keys
+
+# User profiles (consolidated into USER.md)
+users/
