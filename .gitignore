@@ -61,3 +61,21 @@ venv/
 
 mise.tar.gz
 mise.tar.xz
+
+# Rust build artifacts / cache
+cargo-cache/
+**/target/
+
+# Python virtual environments
+pngtuber-venv/
+
+# Archive / backups
+archive/
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.zip
+
+# Cloned repos / submodules
+voltagent-skills/
+nikenike-blog/

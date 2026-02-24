@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "isomorphic-git": "^1.37.1",
+    "isomorphic-git": "^1.37.2",
     "puppeteer-core": "^24.37.4",
     "simple-git": "^3.31.1"
   }
