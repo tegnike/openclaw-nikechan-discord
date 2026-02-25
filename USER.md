@@ -5,7 +5,7 @@ _Learn about the person you're helping. Update this as you go._
 ## マスター
 
 ### ニケ（nikechan）
-- **What to call them:** nikechan
+- **What to call them:** マスター
 - **ユーザー名:** nikechan
 
 **人物:**

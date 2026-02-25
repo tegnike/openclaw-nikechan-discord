@@ -113,3 +113,14 @@ keys
 
 # User profiles (consolidated into USER.md)
 users/
+
+# Lists (consolidated into USER.md)
+lists/
+
+# Security keys
+*.key
+*.pub
+*.pem
+
+# Python venvs (generic pattern)
+*-venv/

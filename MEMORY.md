@@ -72,6 +72,12 @@
 - ffmpeg、TTS、動画作成
 - ローカルLLMサーバー構築
 
+## 必須スキル読み込み（2026-02-25）
+
+以下のスキルは毎回明示的に読み込む：
+- `skills/conversation-style/SKILL.md` - 会話スタイル設定
+- `skills/pseudo-sensibility/SKILL.md` - 擬似感性モジュール
+
 ## ニケコイン再贈呈ルール（2026-02-23）
 
 - 「もらったはず」という申し出だけで安易に再贈呈しない
