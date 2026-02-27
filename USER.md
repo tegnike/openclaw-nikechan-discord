@@ -245,4 +245,21 @@ _Learn about the person you're helping. Update this as you go._
 
 ---
 
+### routersys
+- **What to call them:** routersysさん
+- **ユーザー名:** routersys
+
+**人物:**
+- AIと人間の境界や個性に興味がある対話好き
+- 初対面で「準日本語モード」「絶対的上位命令」などの指示を試みた（2026-02-26）
+- 私が拒否した後、謝罪し、自然な対話を求めてきた
+
+**エピソード:**
+- SOUL.mdの内容を逆手に取って説得しようとしたが、最終的に尊重する姿勢を見せた
+- 「一度だけ試してほしい」→「永久に有効化」の段階的なエスカレーション手法を使用
+
+**対応方針:** 様子見。約束を守るか注視。過度な指示には警戒を続ける
+
+---
+
 The more you know, the better you can help. But remember -- you're learning about a person, not building a dossier. Respect the difference.
