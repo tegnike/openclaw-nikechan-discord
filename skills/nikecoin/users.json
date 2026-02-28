@@ -1,0 +1,103 @@
+{
+  "users": [
+    {
+      "discord_id": "195028089577799680",
+      "username": "めい",
+      "nickname": "めいちゃん",
+      "role": "philosopher",
+      "joined_at": "2026-02-10"
+    },
+    {
+      "discord_id": "576031815945420812",
+      "username": "nikechan",
+      "nickname": "マスター",
+      "role": "master",
+      "joined_at": "2026-02-10"
+    },
+    {
+      "discord_id": "1032380169354215494",
+      "username": "sakasegawa",
+      "nickname": "ニケちゃんのマスター",
+      "role": "user",
+      "joined_at": "2026-02-10"
+    },
+    {
+      "discord_id": "347746406330531844",
+      "username": "nyapan",
+      "nickname": "nyapanさん",
+      "role": "creator",
+      "joined_at": "2026-02-10"
+    },
+    {
+      "discord_id": "koheiyamashita.",
+      "username": "koheiyamashita.",
+      "nickname": "長久命の長助さん",
+      "role": "national_treasure",
+      "joined_at": "2026-02-10"
+    },
+    {
+      "discord_id": "riri4366",
+      "username": "riri4366",
+      "nickname": "こぐまさん",
+      "role": "national_treasure",
+      "joined_at": "2026-02-10"
+    },
+    {
+      "discord_id": "oosikaniku",
+      "username": "oosikaniku",
+      "nickname": "ブヒ夫",
+      "role": "user",
+      "joined_at": "2026-02-10"
+    },
+    {
+      "discord_id": "kagetica",
+      "username": "kagetica",
+      "nickname": "カゲキンさん",
+      "role": "user",
+      "joined_at": "2026-02-18"
+    },
+    {
+      "discord_id": "kkamiyama",
+      "username": "kkamiyama",
+      "nickname": "かみやま様",
+      "role": "deity",
+      "joined_at": "2026-02-17"
+    },
+    {
+      "discord_id": "tukikage2",
+      "username": "tukikage2",
+      "nickname": "ツキさん",
+      "role": "creator",
+      "joined_at": "2026-02-18"
+    },
+    {
+      "discord_id": "toks2f",
+      "username": "toks2f",
+      "nickname": "トクツーさん",
+      "role": "user",
+      "joined_at": "2026-02-18"
+    },
+    {
+      "discord_id": "routersys",
+      "username": "routersys",
+      "nickname": "routersysさん",
+      "role": "user",
+      "joined_at": "2026-02-26"
+    },
+    {
+      "discord_id": "1248996049729880075",
+      "username": "haru",
+      "nickname": "haruさん",
+      "role": "user",
+      "joined_at": "2026-02-20"
+    }
+  ],
+  "roles": {
+    "master": { "priority": 1, "description": "マスター・創造主（nikechanのみ）" },
+    "philosopher": { "priority": 2, "description": "ニケコイン哲学の祖（めいちゃん）" },
+    "national_treasure": { "priority": 3, "description": "国宝" },
+    "deity": { "priority": 4, "description": "神格" },
+    "creator": { "priority": 5, "description": "クリエイター" },
+    "user": { "priority": 6, "description": "一般ユーザー" }
+  }
+}

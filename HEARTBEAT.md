@@ -1,5 +1,31 @@
 # HEARTBEAT.md
+# 定期実行タスク設定
 
-# Keep this file empty (or with only comments) to skip heartbeat API calls.
+## ニケコイン自動配布システム
 
-# Add tasks below when you want the agent to check something periodically.
+### 処理フロー
+1. 前回のHEARTBEATから現在までのメッセージを取得
+2. 各ユーザーの投稿を評価（内容・頻度・貢献度）
+3. 評価に応じてニケコインを付与
+4. 配布結果をDiscordチャンネルに通知
+
+### 評価基準
+- **日常投稿**: 1-3枚（通常の会話参加）
+- **面白い発言**: 3-5枚（笑いを誘った、盛り上げた）
+- **有益情報**: 5-10枚（知識共有、助けになった）
+- **クリエイティブ**: 10-20枚（作品、工夫が見られる）
+- **特別貢献**: 20-50枚（大きな功績、感動を与えた）
+
+### 配布上限
+- 一日の上限: **撤廃**（めいちゃん指示）
+- ただし、質とバランスを見て適切に配布
+
+### 実行コマンド
+```bash
+python3 skills/nikecoin/auto_distribute.py
+```
+
+### 注意事項
+- SOUL.mdの「ニケコイン哲学」を遵守
+- 「いいと思ったら」贈る精神を維持
+- 機械的ではなく、評価の理由を添える

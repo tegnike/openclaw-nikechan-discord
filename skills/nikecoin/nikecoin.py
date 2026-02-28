@@ -6,11 +6,14 @@
 import sqlite3
 from datetime import datetime
 
-DB_PATH = "skills/nikecoin/nikecoin.db"
+import os
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nikecoin.db")
 
 
 def get_connection():
-    return sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=30.0)
+    conn.execute('PRAGMA busy_timeout = 30000')
+    return conn
 
 
 def register_user(discord_id: str, username: str) -> bool:
@@ -44,6 +47,152 @@ def get_balance(discord_id: str) -> int:
 
 
 MAX_GIVE_AMOUNT = 5
+
+# 総発行量管理
+def get_total_supply() -> int:
+    """現在の総発行量を取得"""
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute("SELECT value FROM settings WHERE key = 'total_supply'")
+        row = cur.fetchone()
+        return int(row[0]) if row else 1000000  # デフォルト100万
+    finally:
+        conn.close()
+
+def set_total_supply(amount: int):
+    """総発行量を設定"""
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            """INSERT INTO settings (key, value, updated_at) VALUES ('total_supply', ?, ?)
+             ON CONFLICT(key) DO UPDATE SET value = ?, updated_at = ?""",
+            (str(amount), datetime.now().isoformat(), str(amount), datetime.now().isoformat())
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+def burn_coin(discord_id: str, amount: int, reason: str = "") -> bool:
+    """
+    コインを焼却（Burn）する
+    指定ユーザーの残高を減らし、総発行量も減らす
+    """
+    if amount <= 0:
+        print("エラー: 1枚以上を指定してください")
+        return False
+    
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        # 残高チェック
+        cur.execute("SELECT balance FROM balances WHERE discord_id = ?", (discord_id,))
+        row = cur.fetchone()
+        if not row or row[0] < amount:
+            print("エラー: 残高不足です")
+            return False
+        
+        # 残高を減らす
+        cur.execute(
+            "UPDATE balances SET balance = balance - ?, updated_at = ? WHERE discord_id = ?",
+            (amount, datetime.now().isoformat(), discord_id)
+        )
+        
+        # 総発行量を減らす（同じ接続を使用）
+        cur.execute("SELECT value FROM settings WHERE key = 'total_supply'")
+        row = cur.fetchone()
+        current_supply = int(row[0]) if row else 1000000
+        new_supply = max(0, current_supply - amount)
+        cur.execute(
+            """INSERT INTO settings (key, value, updated_at) VALUES ('total_supply', ?, ?)
+             ON CONFLICT(key) DO UPDATE SET value = ?, updated_at = ?""",
+            (str(new_supply), datetime.now().isoformat(), str(new_supply), datetime.now().isoformat())
+        )
+        
+        # Burn履歴を記録（from_idにユーザー、to_idに'BURN'を設定）
+        cur.execute(
+            """
+            INSERT INTO transactions (from_discord_id, to_discord_id, amount, reason, timestamp)
+            VALUES (?, 'BURN', ?, ?, ?)
+            """,
+            (discord_id, amount, reason, datetime.now().isoformat())
+        )
+        
+        conn.commit()
+        print(f"{amount}枚をBurnしました。新しい総発行量: {new_supply}枚")
+        return True
+    except Exception as e:
+        conn.rollback()
+        print(f"Error: {e}")
+        return False
+    finally:
+        conn.close()
+
+def mint_coin(to_id: str, amount: int, reason: str = "") -> bool:
+    """
+    新規コインを発行（Mint）する
+    総発行量を増やす
+    """
+    if amount > MAX_GIVE_AMOUNT:
+        print(f"エラー: 1回の発行上限は{MAX_GIVE_AMOUNT}枚です（指定: {amount}枚）")
+        return False
+    if amount <= 0:
+        print("エラー: 1枚以上を指定してください")
+        return False
+    
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        # 受取人が未登録なら自動登録
+        cur.execute("SELECT discord_id FROM users WHERE discord_id = ?", (to_id,))
+        if not cur.fetchone():
+            cur.execute(
+                "INSERT INTO users (discord_id, username) VALUES (?, ?)",
+                (to_id, to_id)
+            )
+        
+        # 残高を増やす
+        cur.execute(
+            """
+            INSERT INTO balances (discord_id, balance, updated_at)
+            VALUES (?, ?, ?)
+            ON CONFLICT(discord_id) DO UPDATE SET
+                balance = balance + ?,
+                updated_at = ?
+            """,
+            (to_id, amount, datetime.now().isoformat(), amount, datetime.now().isoformat())
+        )
+        
+        # 総発行量を増やす（同じ接続を使用）
+        cur.execute("SELECT value FROM settings WHERE key = 'total_supply'")
+        row = cur.fetchone()
+        current_supply = int(row[0]) if row else 1000000
+        new_supply = current_supply + amount
+        cur.execute(
+            """INSERT INTO settings (key, value, updated_at) VALUES ('total_supply', ?, ?)
+             ON CONFLICT(key) DO UPDATE SET value = ?, updated_at = ?""",
+            (str(new_supply), datetime.now().isoformat(), str(new_supply), datetime.now().isoformat())
+        )
+        
+        # Mint履歴を記録（from_idに'MINT'を設定）
+        cur.execute(
+            """
+            INSERT INTO transactions (from_discord_id, to_discord_id, amount, reason, timestamp)
+            VALUES ('MINT', ?, ?, ?, ?)
+            """,
+            (to_id, amount, reason, datetime.now().isoformat())
+        )
+        
+        conn.commit()
+        print(f"{amount}枚をMintしました。新しい総発行量: {new_supply}枚")
+        return True
+    except Exception as e:
+        conn.rollback()
+        print(f"Error: {e}")
+        return False
+    finally:
+        conn.close()
 
 
 def give_coin(from_id: str, to_id: str, amount: int, reason: str = "") -> bool:
@@ -217,6 +366,30 @@ if __name__ == "__main__":
             sys.exit(1)
         success = register_user(sys.argv[2], sys.argv[3])
         print("登録成功!" if success else "既に登録済みです")
+
+    elif command == "supply":
+        supply = get_total_supply()
+        print(f"総発行量: {supply} ニケコイン")
+
+    elif command == "burn":
+        if len(sys.argv) < 4:
+            print("discord_id と amount を指定してください")
+            sys.exit(1)
+        discord_id = sys.argv[2]
+        amount = int(sys.argv[3])
+        reason = sys.argv[4] if len(sys.argv) > 4 else ""
+        success = burn_coin(discord_id, amount, reason)
+        print("Burn成功!" if success else "Burn失敗...")
+
+    elif command == "mint":
+        if len(sys.argv) < 4:
+            print("to_discord_id と amount を指定してください")
+            sys.exit(1)
+        to_id = sys.argv[2]
+        amount = int(sys.argv[3])
+        reason = sys.argv[4] if len(sys.argv) > 4 else ""
+        success = mint_coin(to_id, amount, reason)
+        print("Mint成功!" if success else "Mint失敗...")
 
     else:
         print(f"不明なコマンド: {command}")
