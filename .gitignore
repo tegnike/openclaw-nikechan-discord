@@ -66,6 +66,9 @@ mise.tar.xz
 cargo-cache/
 **/target/
 
+# Rust toolchain installation (large binaries, ~1GB+)
+rust-toolchain/
+
 # Python virtual environments
 pngtuber-venv/
 

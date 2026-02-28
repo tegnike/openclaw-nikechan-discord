@@ -1,0 +1,17 @@
+{
+  "name": "nike_protocol",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@noble/ciphers": "^2.1.1",
+    "@noble/ed25519": "^3.0.0",
+    "@noble/hashes": "^2.0.1"
+  }
+}
