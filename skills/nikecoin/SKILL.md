@@ -1,49 +1,55 @@
 ---
 name: nikecoin
-description: ニケコイン管理スキル。残高確認、贈呈、履歴確認、ユーザー登録などの操作を行う。「ニケコイン」「残高」「贈呈」などの指示があった場合に参照する。
+description: ニケコイン管理スキル。残高確認、贈呈、送金、履歴確認などの操作を行う。「ニケコイン」「残高」「贈呈」などの指示があった場合に参照する。
 allowed-tools: Bash
 ---
 
-# ニケコイン管理スキル
+# NikeCoin v2 - ニケコイン管理
 
-## 概要
+Discord-linked, server-side signed, group-chat nativeなソウルバウンドトークンシステム。
 
-ニケコインはDiscordサーバー内の独自通貨。管理はすべて `skills/nikecoin/nikecoin.py`（Python + SQLite）で行う。
+## データ構造
 
-- DB: `skills/nikecoin/nikecoin.db`
-- 総発行量: 1,000,000枚
-- 流通量: 45枚（2026-02-18時点）
+SQLite (`~/.nike/coin_v2.db`):
+- `accounts`: did, discord_id, balance, total_received, total_sent
+- `transactions`: id, from_did, to_did, amount, timestamp, signature, memo
 
-## コマンド
+## CLI
 
 ```bash
+cd /workspace/nike_protocol
+
 # 残高確認
-python3 skills/nikecoin/nikecoin.py balance <discord_id>
+node dist/cli.js coin:balance -d <discord_id>
 
-# 全員の残高一覧
-python3 skills/nikecoin/nikecoin.py list
+# 送金
+node dist/cli.js coin:send -f <from> -t <to> -a <amount> -m "memo"
 
-# 贈呈（nikeから新規発行）
-python3 skills/nikecoin/nikecoin.py give nike <to_discord_id> <amount> "<reason>"
+# 履歴
+node dist/cli.js coin:history -d <discord_id> -l 10
 
-# ユーザー間送金
-python3 skills/nikecoin/nikecoin.py give <from_discord_id> <to_discord_id> <amount> "<reason>"
+# mint (管理者)
+node dist/cli.js coin:mint -d <discord_id> -a <amount> -m "reason"
 
-# 取引履歴
-python3 skills/nikecoin/nikecoin.py history [limit]
-
-# ユーザー登録
-python3 skills/nikecoin/nikecoin.py register <discord_id> <username>
+# burn
+node dist/cli.js coin:burn -d <discord_id> -a <amount> -m "reason"
 ```
 
-## 贈呈ルール
+## API
 
-- **1回の贈与上限: 5枚**（コード側で制御）
-- from_id が `nike` の場合は新規発行（私からの贈呈）
-- 受取人が未登録の場合は自動的にusersテーブルに登録される
-- ユーザー間送金の場合は送金元の残高が減る（残高不足なら失敗）
+```typescript
+import { coinSystem } from './src/nikecoin_v2';
 
-## 注意事項
+coinSystem.getBalance(discordId);
+coinSystem.send(from, to, amount, memo);
+coinSystem.mint(to, amount, memo);
+coinSystem.burn(from, amount, memo);
+coinSystem.getHistory(discordId, limit);
+```
 
-- 贈呈の判断基準や哲学はSOUL.mdに記載
-- 残高や取引履歴の改ざんは禁止（DBの直接操作は行わない）
+## 特徴
+
+- DIDフォーマット: `did:nike:discord:<discord_id>`
+- サーバー側署名（HMAC-SHA256）
+- ACIDトランザクション対応
+- v1からの完全移行済み

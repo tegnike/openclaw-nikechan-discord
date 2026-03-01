@@ -129,3 +129,6 @@ lists/
 
 # Python venvs (generic pattern)
 *-venv/
+
+# NikeCoin application data (contains private keys and encrypted data)
+.nike/

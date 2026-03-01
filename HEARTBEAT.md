@@ -1,12 +1,12 @@
 # HEARTBEAT.md
 # 定期実行タスク設定
 
-## ニケコイン自動配布システム
+## ニケコイン自動配布システム（v2）
 
 ### 処理フロー
 1. 前回のHEARTBEATから現在までのメッセージを取得
 2. 各ユーザーの投稿を評価（内容・頻度・貢献度）
-3. 評価に応じてニケコインを付与
+3. 評価に応じてニケコインを付与（SQLite直接書き込み）
 4. 配布結果をDiscordチャンネルに通知
 
 ### 評価基準
@@ -20,10 +20,20 @@
 - 一日の上限: **撤廃**（めいちゃん指示）
 - ただし、質とバランスを見て適切に配布
 
-### 実行コマンド
+### 実行方法
 ```bash
-python3 skills/nikecoin/auto_distribute.py
+# CLI経由でmint
+node /workspace/nike_protocol/dist/cli.js coin:mint -d <discord_id> -a <amount> -m "HEARTBEAT自動配布: <理由>"
+
+# またはAPI直接
+import { coinSystem } from '/workspace/nike_protocol/dist/nikecoin_v2.js';
+coinSystem.mint(discordId, amount, reason);
 ```
+
+### データベース
+- **Path**: `~/.nike/coin_v2.db`
+- **Tables**: accounts, transactions
+- **DID Format**: `did:nike:discord:<user_id>`
 
 ### 注意事項
 - SOUL.mdの「ニケコイン哲学」を遵守
