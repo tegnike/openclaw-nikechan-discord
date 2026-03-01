@@ -1,5 +1,6 @@
 # Environment variables (contains secrets)
 .env
+.env.*
 .env.local
 .env.*.local
 
@@ -61,6 +62,9 @@ venv/
 
 mise.tar.gz
 mise.tar.xz
+
+# Build artifacts
+**/dist/
 
 # Rust build artifacts / cache
 cargo-cache/

@@ -1,5 +1,2 @@
-// Result type for explicit error handling
-// Using neverthrow library
-
+// Result type re-export from neverthrow
 export { ok, err, Result, Ok, Err } from 'neverthrow';
-export type { Result as NikeResult } from 'neverthrow';
