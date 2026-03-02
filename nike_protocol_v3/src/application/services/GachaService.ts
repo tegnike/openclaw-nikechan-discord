@@ -1,33 +1,70 @@
-import type { IWalletRepository } from '../../core/interfaces/repositories/IWalletRepository.js';
-import type { ITransactionRepository } from '../../core/interfaces/repositories/ITransactionRepository.js';
-import type { InventoryRepository } from '../../core/domain/gacha/InventoryRepository.js';
-import { PullGachaCommand, type PullGachaOutput } from '../commands/PullGachaCommand.js';
-import { DomainError } from '../../core/errors/DomainError.js';
+import { PullGachaCommand } from '../commands/PullGachaCommand.js';
+import { SQLiteInventoryRepository } from '../../infrastructure/repositories/SQLiteInventoryRepository.js';
+import { SQLiteWalletRepository } from '../../infrastructure/repositories/SQLiteWalletRepository.js';
+import { SQLiteTransactionRepository } from '../../infrastructure/repositories/SQLiteTransactionRepository.js';
+import { DropTable } from '../../core/domain/gacha/DropTable.js';
+import { Title } from '../../core/domain/gacha/Title.js';
+import { Result, ok, err } from '../../core/shared/Result.js';
+import { NikeError } from '../../core/errors/NikeError.js';
+import { createHmac } from 'crypto';
+
+export interface GachaPullResult {
+  titles: Title[];
+  transactionId: string;
+}
 
 export class GachaService {
   private pullCommand: PullGachaCommand;
+  private inventoryRepo: SQLiteInventoryRepository;
 
-  constructor(
-    walletRepo: IWalletRepository,
-    txRepo: ITransactionRepository,
-    inventoryRepo: InventoryRepository
+  private constructor(
+    pullCommand: PullGachaCommand,
+    inventoryRepo: SQLiteInventoryRepository
   ) {
-    this.pullCommand = new PullGachaCommand(walletRepo, txRepo, inventoryRepo);
+    this.pullCommand = pullCommand;
+    this.inventoryRepo = inventoryRepo;
   }
 
-  async pull(did: string): Promise<PullGachaOutput> {
-    const result = await this.pullCommand.execute({ did, isTenPull: false });
-    if (result.isErr()) {
-      throw result.error;
+  static async create(): Promise<GachaService> {
+    const dbPath = process.env.NIKECOIN_DB_PATH || './data/coin_v3.db';
+    const encryptionKey = process.env.NIKE_COIN_ENCRYPTION_KEY;
+    
+    if (!encryptionKey) {
+      throw new Error('NIKE_COIN_ENCRYPTION_KEY environment variable is required');
     }
-    return result.value;
+
+    const walletRepo = new SQLiteWalletRepository(dbPath, encryptionKey);
+    const txRepo = new SQLiteTransactionRepository(dbPath, encryptionKey);
+    const inventoryRepo = new SQLiteInventoryRepository(dbPath, encryptionKey);
+    
+    const signFn = (data: string) => {
+      const secret = process.env.NIKECOIN_SECRET || 'default-secret';
+      return createHmac('sha256', secret).update(data).digest('hex');
+    };
+
+    const dropTable = DropTable.createDefault();
+    const pullCommand = new PullGachaCommand(
+      walletRepo,
+      txRepo,
+      inventoryRepo,
+      dropTable,
+      signFn
+    );
+
+    return new GachaService(pullCommand, inventoryRepo);
   }
 
-  async pull10(did: string): Promise<PullGachaOutput> {
-    const result = await this.pullCommand.execute({ did, isTenPull: true });
-    if (result.isErr()) {
-      throw result.error;
+  async pull10(did: string): Promise<Result<GachaPullResult, NikeError>> {
+    return this.pullCommand.execute({ did, count: 10 });
+  }
+
+  async getInventory(did: string): Promise<Result<Title[], NikeError>> {
+    const inventory = await this.inventoryRepo.findByDid(did);
+    
+    if (!inventory) {
+      return ok([]);
     }
-    return result.value;
+
+    return ok(inventory.titles);
   }
 }

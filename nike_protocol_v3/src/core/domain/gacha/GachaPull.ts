@@ -1,14 +1,28 @@
 import { Title } from './Title.js';
 
-export class GachaPull {
-  readonly title: Title;
-  readonly isNew: boolean;
-  readonly pulledAt: Date;
+export interface GachaPullData {
+  userId: string;
+  titles: Title[];
+  cost: number;
+  timestamp?: Date;
+}
 
-  constructor(title: Title, isNew: boolean, pulledAt: Date = new Date()) {
-    this.title = title;
-    this.isNew = isNew;
-    this.pulledAt = pulledAt;
-    Object.freeze(this);
+export class GachaPull {
+  readonly id: string;
+  readonly userId: string;
+  readonly titles: Title[];
+  readonly cost: number;
+  readonly timestamp: Date;
+
+  constructor(data: GachaPullData) {
+    this.id = crypto.randomUUID();
+    this.userId = data.userId;
+    this.titles = data.titles;
+    this.cost = data.cost;
+    this.timestamp = data.timestamp || new Date();
+  }
+
+  static create(data: GachaPullData): GachaPull {
+    return new GachaPull(data);
   }
 }

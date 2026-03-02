@@ -1,90 +1,106 @@
-import { Title, Rarity } from './Title.js';
+import { Title } from './Title.js';
 
 export class DropTable {
-  private titles: Title[] = [];
+  private titles: Title[];
 
-  static createStandard(): DropTable {
-    const table = new DropTable();
+  constructor(titles: Title[]) {
+    this.titles = titles;
+  }
+
+  static createDefault(): DropTable {
+    const titles: Title[] = [];
     
-    // SS (1%)
-    table.addTitle(new Title('ss_001', '伝説のニケ', 'SS'));
-    table.addTitle(new Title('ss_002', '神話の始まり', 'SS'));
-    table.addTitle(new Title('ss_003', '創世の一撃', 'SS'));
-    table.addTitle(new Title('ss_004', '永遠の誓い', 'SS'));
-    table.addTitle(new Title('ss_005', '運命の出会い', 'SS'));
+    // SS (5種) - 1%
+    const ssNames = ['伝説の勇者', '神々しい存在', '世界を救いし者', '時空を超えし者', '永遠の守護者'];
+    for (let i = 1; i <= 5; i++) {
+      titles.push(new Title({
+        id: `ss_${i}`,
+        name: ssNames[i-1],
+        rarity: 'SS',
+        description: `SSランク称号 #${i}`
+      }));
+    }
     
-    // S (3%)
+    // S (10種) - 3%
     for (let i = 1; i <= 10; i++) {
-      table.addTitle(new Title(`s_${String(i).padStart(3, '0')}`, `Sレア称号${i}`, 'S'));
+      titles.push(new Title({
+        id: `s_${i}`,
+        name: `Sランク称号 ${i}`,
+        rarity: 'S',
+        description: `Sランク称号 #${i}`
+      }));
     }
     
-    // A (10%)
+    // A (20種) - 10%
     for (let i = 1; i <= 20; i++) {
-      table.addTitle(new Title(`a_${String(i).padStart(3, '0')}`, `Aレア称号${i}`, 'A'));
+      titles.push(new Title({
+        id: `a_${i}`,
+        name: `Aランク称号 ${i}`,
+        rarity: 'A',
+        description: `Aランク称号 #${i}`
+      }));
     }
     
-    // B (26%)
+    // B (30種) - 26%
     for (let i = 1; i <= 30; i++) {
-      table.addTitle(new Title(`b_${String(i).padStart(3, '0')}`, `Bレア称号${i}`, 'B'));
+      titles.push(new Title({
+        id: `b_${i}`,
+        name: `Bランク称号 ${i}`,
+        rarity: 'B',
+        description: `Bランク称号 #${i}`
+      }));
     }
     
-    // C (60%)
+    // C (40種) - 60%
     for (let i = 1; i <= 40; i++) {
-      table.addTitle(new Title(`c_${String(i).padStart(3, '0')}`, `Cレア称号${i}`, 'C'));
+      titles.push(new Title({
+        id: `c_${i}`,
+        name: `Cランク称号 ${i}`,
+        rarity: 'C',
+        description: `Cランク称号 #${i}`
+      }));
     }
     
-    return table;
+    return new DropTable(titles);
   }
 
-  private addTitle(title: Title): void {
-    this.titles.push(title);
-  }
-
-  drawSingle(): Title {
+  draw(): Title {
     const rand = Math.random() * 100;
-    let cumulative = 0;
+    let rarity: 'SS' | 'S' | 'A' | 'B' | 'C';
     
-    for (const title of this.titles) {
-      cumulative += this.getProbability(title.rarity);
-      if (rand <= cumulative) {
-        return title;
-      }
-    }
+    if (rand < 1) rarity = 'SS';
+    else if (rand < 4) rarity = 'S';
+    else if (rand < 14) rarity = 'A';
+    else if (rand < 40) rarity = 'B';
+    else rarity = 'C';
     
-    return this.titles[this.titles.length - 1];
+    const pool = this.titles.filter(t => t.rarity === rarity);
+    return pool[Math.floor(Math.random() * pool.length)];
   }
 
   drawTen(): Title[] {
     const results: Title[] = [];
     let hasAOrAbove = false;
     
+    // First 9 pulls
     for (let i = 0; i < 9; i++) {
-      const title = this.drawSingle();
-      results.push(title);
-      if (['SS', 'S', 'A'].includes(title.rarity)) {
+      const title = this.draw();
+      if (title.rarity === 'A' || title.rarity === 'S' || title.rarity === 'SS') {
         hasAOrAbove = true;
       }
+      results.push(title);
     }
     
-    // 10th pull guarantee
+    // 10th pull - guarantee A or above if none in first 9
     if (!hasAOrAbove) {
-      const aTitles = this.titles.filter(t => t.rarity === 'A');
-      results.push(aTitles[Math.floor(Math.random() * aTitles.length)]);
+      const guaranteedPool = this.titles.filter(t => 
+        t.rarity === 'A' || t.rarity === 'S' || t.rarity === 'SS'
+      );
+      results.push(guaranteedPool[Math.floor(Math.random() * guaranteedPool.length)]);
     } else {
-      results.push(this.drawSingle());
+      results.push(this.draw());
     }
     
     return results;
-  }
-
-  private getProbability(rarity: Rarity): number {
-    switch (rarity) {
-      case 'SS': return 1;
-      case 'S': return 0.3;
-      case 'A': return 0.5;
-      case 'B': return 0.87;
-      case 'C': return 1.5;
-      default: return 1;
-    }
   }
 }

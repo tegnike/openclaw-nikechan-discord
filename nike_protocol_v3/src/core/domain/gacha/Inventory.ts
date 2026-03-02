@@ -1,22 +1,26 @@
+import { Title } from './Title.js';
+
+export interface InventoryData {
+  id?: string;
+  did: string;
+  titles: Title[];
+  createdAt?: Date;
+}
+
 export class Inventory {
-  private constructor(private _titleIds: string[]) {}
+  readonly id: string;
+  readonly did: string;
+  readonly titles: Title[];
+  readonly createdAt: Date;
 
-  static create(titleIds: string[] = []): Inventory {
-    return new Inventory([...titleIds]);
+  constructor(data: InventoryData) {
+    this.id = data.id || crypto.randomUUID();
+    this.did = data.did;
+    this.titles = data.titles;
+    this.createdAt = data.createdAt || new Date();
   }
 
-  hasTitle(titleId: string): boolean {
-    return this._titleIds.includes(titleId);
-  }
-
-  addTitle(title: { id: string }): Inventory {
-    if (this.hasTitle(title.id)) {
-      return this;
-    }
-    return new Inventory([...this._titleIds, title.id]);
-  }
-
-  get titleIds(): readonly string[] {
-    return this._titleIds;
+  static create(data: InventoryData): Inventory {
+    return new Inventory(data);
   }
 }

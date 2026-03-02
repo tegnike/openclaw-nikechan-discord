@@ -1,115 +1,95 @@
-import { ok, err, type Result } from 'neverthrow';
-import type { IWalletRepository } from '../../core/interfaces/repositories/IWalletRepository.js';
-import type { ITransactionRepository } from '../../core/interfaces/repositories/ITransactionRepository.js';
-import type { InventoryRepository } from '../../core/domain/gacha/InventoryRepository.js';
+import { WalletRepository } from '../../core/domain/user/repositories/WalletRepository.js';
+import { TransactionRepository } from '../../core/domain/coin/repositories/TransactionRepository.js';
+import { InventoryRepository } from '../../core/domain/gacha/repositories/InventoryRepository.js';
 import { DropTable } from '../../core/domain/gacha/DropTable.js';
-import { GachaPulled } from '../../core/events/GachaPulled.js';
+import { Title } from '../../core/domain/gacha/Title.js';
+import { GachaPull } from '../../core/domain/gacha/GachaPull.js';
 import { Transaction } from '../../core/domain/coin/Transaction.js';
-import { DomainError } from '../../core/errors/DomainError.js';
+import { Result, ok, err } from '../../core/shared/Result.js';
+import { NikeError } from '../../core/errors/NikeError.js';
 
 export interface PullGachaInput {
   did: string;
-  isTenPull?: boolean;
+  count: number;
 }
 
 export interface PullGachaOutput {
-  pulls: Array<{
-    titleId: string;
-    name: string;
-    rarity: string;
-    isNew: boolean;
-  }>;
-  totalCost: number;
-  newBalance: number;
-  transactionIds: string[];
+  titles: Title[];
+  transactionId: string;
 }
 
 export class PullGachaCommand {
-  private readonly COST_PER_PULL = 10;
-  private readonly dropTable = DropTable.createStandard();
+  private walletRepo: WalletRepository;
+  private txRepo: TransactionRepository;
+  private inventoryRepo: InventoryRepository;
+  private dropTable: DropTable;
+  private signFn: (data: string) => string;
 
   constructor(
-    private walletRepo: IWalletRepository,
-    private txRepo: ITransactionRepository,
-    private inventoryRepo: InventoryRepository
-  ) {}
+    walletRepo: WalletRepository,
+    txRepo: TransactionRepository,
+    inventoryRepo: InventoryRepository,
+    dropTable: DropTable,
+    signFn: (data: string) => string
+  ) {
+    this.walletRepo = walletRepo;
+    this.txRepo = txRepo;
+    this.inventoryRepo = inventoryRepo;
+    this.dropTable = dropTable;
+    this.signFn = signFn;
+  }
 
-  async execute(input: PullGachaInput): Promise<Result<PullGachaOutput, Error>> {
-    const pullCount = input.isTenPull ? 10 : 1;
-    const totalCost = this.COST_PER_PULL * pullCount;
+  async execute(input: PullGachaInput): Promise<Result<PullGachaOutput, NikeError>> {
+    const cost = input.count * 10; // 10 coins per pull
 
     // Check balance
-    const walletResult = await this.walletRepo.findByDID(input.did);
-    if (walletResult.isErr()) {
-      return err(new DomainError('WALLET_NOT_FOUND', 'Wallet not found'));
-    }
-    const wallet = walletResult.value;
-
-    if (wallet.balance.amount < totalCost) {
-      return err(new DomainError('INSUFFICIENT_BALANCE', `Need ${totalCost} coins, have ${wallet.balance.amount}`));
+    const wallet = await this.walletRepo.findByDid(input.did);
+    if (!wallet) {
+      return err(new NikeError('WALLET_NOT_FOUND', 'Wallet not found'));
     }
 
-    // Deduct coins
-    const deductResult = await this.walletRepo.addBalance(input.did, -totalCost);
-    if (deductResult.isErr()) {
-      return err(deductResult.error);
-    }
-    const newBalance = deductResult.value;
-
-    // Get or create inventory
-    const inventoryResult = await this.inventoryRepo.findByDiscordId(input.did);
-    if (inventoryResult.isErr()) {
-      return err(inventoryResult.error);
-    }
-    let inventory = inventoryResult.value;
-
-    // Draw gacha
-    const draws = input.isTenPull 
-      ? this.dropTable.drawTen() 
-      : [this.dropTable.drawSingle()];
-
-    const pulls: PullGachaOutput['pulls'] = [];
-    const transactionIds: string[] = [];
-
-    for (const title of draws) {
-      const isNew = !inventory.hasTitle(title.id);
-      if (isNew) {
-        inventory = inventory.addTitle(title);
-      }
-
-      pulls.push({
-        titleId: title.id,
-        name: title.name,
-        rarity: title.rarity,
-        isNew
-      });
-
-      // Record transaction for each pull
-      const tx = Transaction.create({
-        did: input.did,
-        amount: -this.COST_PER_PULL,
-        type: 'GACHA',
-        description: `Gacha: ${title.name} (${title.rarity})`
-      });
-      
-      await this.txRepo.save(tx);
-      transactionIds.push(tx.id);
+    if (wallet.balance < cost) {
+      return err(new NikeError('INSUFFICIENT_BALANCE', `Need ${cost} coins, have ${wallet.balance}`));
     }
 
-    // Save inventory
-    const saveResult = await this.inventoryRepo.save(input.did, inventory);
-    if (saveResult.isErr()) {
-      return err(saveResult.error);
+    // Deduct balance
+    const deductResult = await this.walletRepo.subtractBalance(input.did, cost);
+    if (!deductResult.success) {
+      const errorResult = deductResult as { success: false; error: NikeError };
+      return err(errorResult.error);
     }
 
-    // Emit event
-    const event = new GachaPulled(input.did, draws.map(t => t.id), totalCost);
+    // Perform gacha pull
+    const titles = this.dropTable.drawTen();
+
+    // Create gacha pull record
+    const pull = GachaPull.create({
+      userId: input.did,
+      titles,
+      cost,
+      timestamp: new Date()
+    });
+
+    // Add titles to inventory
+    for (const title of titles) {
+      await this.inventoryRepo.addTitle(input.did, title.id);
+    }
+
+    // Create transaction record
+    const tx = new Transaction({
+      type: 'GACHA',
+      amount: -cost,
+      fromDid: input.did,
+      toDid: 'system:gacha',
+      description: `Gacha ${input.count}pull`,
+      signature: this.signFn(`${input.did}:${cost}:${Date.now()}`)
+    });
+
+    await this.txRepo.save(tx);
 
     return ok({
-      pulls,
-      totalCost,
-      newBalance,
-      transactionIds
+      titles,
+      transactionId: tx.id
     });
   }
 }

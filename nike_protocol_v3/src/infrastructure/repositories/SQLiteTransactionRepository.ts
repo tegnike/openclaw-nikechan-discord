@@ -1,45 +1,101 @@
-import type { Result } from 'neverthrow';
-import { ok, err } from 'neverthrow';
-import type { ITransactionRepository } from '../../core/interfaces/repositories/ITransactionRepository.js';
-import type { Transaction } from '../../core/domain/coin/Transaction.js';
-import type { Database } from '../database/Database.js';
+import { TransactionRepository } from '../../core/domain/coin/repositories/TransactionRepository.js';
+import { Transaction } from '../../core/domain/coin/Transaction.js';
+import { EncryptedDatabase } from '../database/EncryptedDatabase.js';
 
-export class SQLiteTransactionRepository implements ITransactionRepository {
-  constructor(private db: Database) {}
+export class SQLiteTransactionRepository implements TransactionRepository {
+  private db: EncryptedDatabase;
 
-  async save(transaction: Transaction): Promise<Result<void, Error>> {
-    try {
-      const stmt = this.db.prepare(
-        'INSERT INTO transactions (id, did, amount, type, description, created_at) VALUES (?, ?, ?, ?, ?, ?)'
-      );
-      stmt.run(
-        transaction.id,
-        transaction.did,
-        transaction.amount,
-        transaction.type,
-        transaction.description,
-        transaction.createdAt.toISOString()
-      );
-      return ok(undefined);
-    } catch (e) {
-      return err(new Error(`Failed to save transaction: ${e}`));
-    }
+  constructor(dbPath: string, encryptionKey: string) {
+    this.db = new EncryptedDatabase(dbPath, encryptionKey);
+    this.initializeTable();
   }
 
-  async findByDID(did: string): Promise<Result<Transaction[], Error>> {
-    try {
-      const stmt = this.db.prepare('SELECT * FROM transactions WHERE did = ? ORDER BY created_at DESC');
-      const rows = stmt.all(did) as any[];
-      return ok(rows.map(row => ({
-        id: row.id,
-        did: row.did,
-        amount: row.amount,
-        type: row.type,
-        description: row.description,
-        createdAt: new Date(row.created_at)
-      })));
-    } catch (e) {
-      return err(new Error(`Failed to find transactions: ${e}`));
+  private initializeTable(): void {
+    this.db.exec(`
+      CREATE TABLE IF NOT EXISTS transactions (
+        id TEXT PRIMARY KEY,
+        type TEXT NOT NULL,
+        amount INTEGER NOT NULL,
+        from_did TEXT,
+        to_did TEXT,
+        description TEXT,
+        signature TEXT NOT NULL,
+        timestamp TEXT NOT NULL
+      )
+    `);
+  }
+
+  async save(tx: Transaction): Promise<void> {
+    this.db.prepare(
+      `INSERT INTO transactions (id, type, amount, from_did, to_did, description, signature, timestamp)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    ).run(
+      tx.id,
+      tx.type,
+      tx.amount,
+      tx.fromDid || null,
+      tx.toDid || null,
+      tx.description || null,
+      tx.signature,
+      tx.timestamp.toISOString()
+    );
+  }
+
+  async findById(id: string): Promise<Transaction | null> {
+    const row = this.db.prepare(
+      'SELECT * FROM transactions WHERE id = ?'
+    ).get(id) as {
+      id: string;
+      type: string;
+      amount: number;
+      from_did: string | null;
+      to_did: string | null;
+      description: string | null;
+      signature: string;
+      timestamp: string;
+    } | undefined;
+
+    if (!row) {
+      return null;
     }
+
+    return new Transaction({
+      id: row.id,
+      type: row.type as 'MINT' | 'TRANSFER' | 'GACHA',
+      amount: row.amount,
+      fromDid: row.from_did || undefined,
+      toDid: row.to_did || undefined,
+      description: row.description || undefined,
+      signature: row.signature,
+      timestamp: new Date(row.timestamp)
+    });
+  }
+
+  async findByDid(did: string): Promise<Transaction[]> {
+    const rows = this.db.prepare(
+      `SELECT * FROM transactions 
+       WHERE from_did = ? OR to_did = ?
+       ORDER BY timestamp DESC`
+    ).all(did, did) as Array<{
+      id: string;
+      type: string;
+      amount: number;
+      from_did: string | null;
+      to_did: string | null;
+      description: string | null;
+      signature: string;
+      timestamp: string;
+    }>;
+
+    return rows.map(row => new Transaction({
+      id: row.id,
+      type: row.type as 'MINT' | 'TRANSFER' | 'GACHA',
+      amount: row.amount,
+      fromDid: row.from_did || undefined,
+      toDid: row.to_did || undefined,
+      description: row.description || undefined,
+      signature: row.signature,
+      timestamp: new Date(row.timestamp)
+    }));
   }
 }

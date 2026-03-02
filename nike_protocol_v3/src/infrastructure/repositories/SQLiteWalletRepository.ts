@@ -1,108 +1,104 @@
-import { ok, err, type Result } from 'neverthrow';
-import type { IWalletRepository } from '../../core/interfaces/repositories/IWalletRepository.js';
+import { WalletRepository } from '../../core/domain/user/repositories/WalletRepository.js';
 import { Wallet } from '../../core/domain/user/Wallet.js';
-import { Coin } from '../../core/domain/coin/Coin.js';
-import { UserId } from '../../core/domain/user/UserId.js';
-import type { Database } from '../database/Database.js';
+import { Result, ok, err } from '../../core/shared/Result.js';
+import { NikeError } from '../../core/errors/NikeError.js';
+import { EncryptedDatabase } from '../database/EncryptedDatabase.js';
 
-interface WalletRow {
-  did: string;
-  balance: number;
-}
+export class SQLiteWalletRepository implements WalletRepository {
+  private db: EncryptedDatabase;
 
-export class SQLiteWalletRepository implements IWalletRepository {
-  constructor(private db: Database) {
-    this.init();
+  constructor(dbPath: string, encryptionKey: string) {
+    this.db = new EncryptedDatabase(dbPath, encryptionKey);
+    this.initializeTable();
   }
 
-  private init(): void {
+  private initializeTable(): void {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS wallets (
         did TEXT PRIMARY KEY,
-        balance INTEGER DEFAULT 0,
-        version INTEGER DEFAULT 1,
-        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        balance INTEGER NOT NULL DEFAULT 0,
+        version INTEGER NOT NULL DEFAULT 1,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
       )
     `);
   }
 
-  async findByDID(did: string): Promise<Result<Wallet, Error>> {
-    try {
-      const stmt = this.db.prepare('SELECT * FROM wallets WHERE did = ?');
-      const row = stmt.get(did) as WalletRow | undefined;
-      
-      if (!row) {
-        return err(new Error('Wallet not found'));
-      }
+  async findByDid(did: string): Promise<Wallet | null> {
+    const row = this.db.prepare(
+      'SELECT * FROM wallets WHERE did = ?'
+    ).get(did) as { did: string; balance: number; version: number; created_at: string; updated_at: string } | undefined;
 
-      const userIdResult = UserId.create(row.did);
-      if (userIdResult.isErr()) {
-        return err(new Error(userIdResult.error.message));
-      }
-
-      const coinResult = Coin.create(row.balance);
-      if (coinResult.isErr()) {
-        return err(new Error(coinResult.error.message));
-      }
-
-      return ok(new Wallet(userIdResult.value, coinResult.value));
-    } catch (e) {
-      return err(new Error(`Failed to find wallet: ${e}`));
+    if (!row) {
+      return null;
     }
+
+    return new Wallet({
+      did: row.did,
+      balance: row.balance,
+      version: row.version,
+      createdAt: new Date(row.created_at),
+      updatedAt: new Date(row.updated_at)
+    });
   }
 
-  async save(wallet: Wallet): Promise<Result<void, Error>> {
+  async save(wallet: Wallet): Promise<void> {
+    this.db.prepare(
+      `INSERT OR REPLACE INTO wallets (did, balance, version, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?)`
+    ).run(
+      wallet.did,
+      wallet.balance,
+      wallet.version,
+      wallet.createdAt.toISOString(),
+      wallet.updatedAt.toISOString()
+    );
+  }
+
+  async addBalance(did: string, amount: number): Promise<Result<void, NikeError>> {
     try {
-      const stmt = this.db.prepare(
-        'INSERT OR REPLACE INTO wallets (did, balance, updated_at) VALUES (?, ?, datetime("now"))'
-      );
-      stmt.run(wallet.userId.value, wallet.balance.amount);
+      // Use atomic SQL operation for race condition prevention
+      const result = this.db.prepare(
+        'UPDATE wallets SET balance = balance + ?, version = version + 1, updated_at = ? WHERE did = ?'
+      ).run(amount, new Date().toISOString(), did);
+
+      if (result.changes === 0) {
+        // Wallet doesn't exist, create it
+        this.db.prepare(
+          'INSERT INTO wallets (did, balance, version, created_at, updated_at) VALUES (?, ?, 1, ?, ?)'
+        ).run(did, amount, new Date().toISOString(), new Date().toISOString());
+      }
+
       return ok(undefined);
-    } catch (e) {
-      return err(new Error(`Failed to save wallet: ${e}`));
+    } catch (error) {
+      return err(new NikeError('DB_ERROR', `Failed to add balance: ${error}`));
     }
   }
 
-  async updateBalance(did: string, newBalance: Coin): Promise<Result<void, Error>> {
+  async subtractBalance(did: string, amount: number): Promise<Result<void, NikeError>> {
     try {
-      const stmt = this.db.prepare(
-        'UPDATE wallets SET balance = ?, updated_at = datetime("now") WHERE did = ?'
-      );
-      stmt.run(newBalance.amount, did);
-      return ok(undefined);
-    } catch (e) {
-      return err(new Error(`Failed to update balance: ${e}`));
-    }
-  }
-
-  /**
-   * 【防衛プロトコル】アトミックな残高加算
-   * SQLレベルで加算を行い、read-modify-writeサイクルを排除
-   */
-  async addBalance(did: string, amount: number): Promise<Result<number, Error>> {
-    try {
-      // Ensure wallet exists
-      const checkStmt = this.db.prepare('SELECT 1 FROM wallets WHERE did = ?');
-      const exists = checkStmt.get(did);
-      
-      if (!exists) {
-        const createStmt = this.db.prepare('INSERT INTO wallets (did, balance) VALUES (?, 0)');
-        createStmt.run(did);
+      // Check current balance first
+      const wallet = await this.findByDid(did);
+      if (!wallet) {
+        return err(new NikeError('WALLET_NOT_FOUND', 'Wallet not found'));
       }
 
-      // Atomic addition
-      const updateStmt = this.db.prepare(
-        'UPDATE wallets SET balance = balance + ?, updated_at = datetime("now") WHERE did = ?'
-      );
-      updateStmt.run(amount, did);
+      if (wallet.balance < amount) {
+        return err(new NikeError('INSUFFICIENT_BALANCE', `Need ${amount}, have ${wallet.balance}`));
+      }
 
-      // Get new balance
-      const selectStmt = this.db.prepare('SELECT balance FROM wallets WHERE did = ?');
-      const row = selectStmt.get(did) as { balance: number };
-      
-      return ok(row.balance);
-    } catch (e) {
-      return err(new Error(`Failed to add balance: ${e}`));
+      // Atomic subtraction
+      const result = this.db.prepare(
+        'UPDATE wallets SET balance = balance - ?, version = version + 1, updated_at = ? WHERE did = ? AND balance >= ?'
+      ).run(amount, new Date().toISOString(), did, amount);
+
+      if (result.changes === 0) {
+        return err(new NikeError('CONCURRENT_MODIFICATION', 'Balance changed during operation'));
+      }
+
+      return ok(undefined);
+    } catch (error) {
+      return err(new NikeError('DB_ERROR', `Failed to subtract balance: ${error}`));
     }
   }
 }

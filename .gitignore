@@ -136,3 +136,8 @@ lists/
 
 # NikeCoin application data (contains private keys and encrypted data)
 .nike/
+
+# SQLite database files (runtime state)
+*.db
+*.db-shm
+*.db-wal

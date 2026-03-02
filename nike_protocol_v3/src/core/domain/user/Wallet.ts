@@ -1,32 +1,27 @@
-import { Coin } from '../coin/Coin.js';
-import { UserId } from './UserId.js';
+export interface WalletData {
+  did: string;
+  balance: number;
+  version?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
 export class Wallet {
-  constructor(
-    public readonly userId: UserId,
-    public balance: Coin
-  ) {}
+  readonly did: string;
+  balance: number;
+  version: number;
+  createdAt: Date;
+  updatedAt: Date;
 
-  static create(userId: UserId): Wallet {
-    return new Wallet(userId, Coin.zero());
+  constructor(data: WalletData) {
+    this.did = data.did;
+    this.balance = data.balance;
+    this.version = data.version || 1;
+    this.createdAt = data.createdAt || new Date();
+    this.updatedAt = data.updatedAt || new Date();
   }
 
-  add(amount: Coin): void {
-    const result = this.balance.add(amount);
-    if (result.isOk()) {
-      this.balance = result.value;
-    }
-  }
-
-  subtract(amount: Coin): boolean {
-    if (this.balance.amount < amount.amount) {
-      return false;
-    }
-    const result = this.balance.subtract(amount);
-    if (result.isOk()) {
-      this.balance = result.value;
-      return true;
-    }
-    return false;
+  static create(data: WalletData): Wallet {
+    return new Wallet(data);
   }
 }

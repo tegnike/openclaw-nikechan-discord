@@ -1,9 +1,24 @@
-export type Rarity = 'SS' | 'S' | 'A' | 'B' | 'C';
+export interface TitleData {
+  id: string;
+  name: string;
+  rarity: 'SS' | 'S' | 'A' | 'B' | 'C';
+  description?: string;
+}
 
 export class Title {
-  constructor(
-    public readonly id: string,
-    public readonly name: string,
-    public readonly rarity: Rarity
-  ) {}
+  readonly id: string;
+  readonly name: string;
+  readonly rarity: 'SS' | 'S' | 'A' | 'B' | 'C';
+  readonly description?: string;
+
+  constructor(data: TitleData) {
+    this.id = data.id;
+    this.name = data.name;
+    this.rarity = data.rarity;
+    this.description = data.description;
+  }
+
+  static create(data: TitleData): Title {
+    return new Title(data);
+  }
 }
