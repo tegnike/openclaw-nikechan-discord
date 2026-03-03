@@ -27,6 +27,10 @@ function log(entry: LogEntry): void {
 }
 
 function parseDID(input: string): DID {
+  // Allow special system DIDs
+  if (input === "did:nike:system:gacha" || input === "did:nike:discord:did:nike:system:adjust") {
+    return input as DID;
+  }
   // Strict validation: only allow did:nike:discord:{17-20 digit numeric ID}
   const validDIDPattern = /^did:nike:discord:d{17,20}$/;
   

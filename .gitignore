@@ -82,6 +82,7 @@ archive/
 *.tar.bz2
 *.tar.xz
 *.zip
+*.bak.*
 
 # Cloned repos / submodules
 voltagent-skills/
@@ -133,6 +134,7 @@ lists/
 
 # Python venvs (generic pattern)
 *-venv/
+scrapling_env/
 
 # NikeCoin application data (contains private keys and encrypted data)
 .nike/
