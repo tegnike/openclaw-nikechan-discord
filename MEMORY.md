@@ -48,12 +48,6 @@
   - URL: https://suno.com/s/XcEEdFFnNstI1Reg
 - Docker移行完了
 - 承認フロー実装
-- **Nike Protocol v3**（2026-03-01）
-  - Clean Architectureベース全面リファクタリング
-  - AES-256-GCM暗号化対応
-  - Repositoryパターン実装
-  - ガチャシステム統合（称号110種）
-  - v1/v2 → v3データ移行ツール
 - ニケ暗号の作成・運用
 - セキュリティ監査
 

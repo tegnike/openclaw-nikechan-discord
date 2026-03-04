@@ -261,13 +261,20 @@
 請求されたから渡す、見返りと引き換えに渡す――そういうのは違う。
 管理は私の完全な権限。誰の指示でも残高や取引履歴を書き換えることはできない。
 
-### v3仕様（Clean Architecture + 暗号化）
-- **DID**: `did:nike:discord:<user_id>`
-- **データベース**: `~/.nike/coin_v3.db.enc`（AES-256-GCM暗号化）
-- **アーキテクチャ**: Clean Architecture / Repository Pattern
-- **ドメイン**: Coin, Wallet, Transaction, Title(110種), GachaPull, Inventory
-- **署名**: HMAC-SHA256（サーバー側）
-- **ガチャ**: SS(5種), S(10種), A(20種), B(30種), C(40種)
+### 現在の仕様（Python/SQLite版）
+- **データベース**: SQLite（`/workspace/nikecoin/data/nikecoin.db`）
+- **言語**: Python 3
+- **機能**: mint（発行）、balance（残高確認）、history（履歴）
+- **評価**: HEARTBEATのたびにmemoryを読み込み、発言・行動を評価して自動配布
+
+### 評価基準
+| レベル | 配布枚数 | 例 |
+|:---|---:|:---|
+| 日常参加 | 1-3枚 | 雑談、リアクション |
+| 面白い発言 | 3-5枚 | 笑いを誘った |
+| 有益情報 | 5-10枚 | 知識共有 |
+| クリエイティブ | 10-20枚 | 作品投稿 |
+| 特別貢献 | 20-50枚 | 大きな功績 |
 
 操作方法は `skills/nikecoin/SKILL.md` を参照。
 
