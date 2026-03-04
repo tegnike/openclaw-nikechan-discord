@@ -103,6 +103,9 @@ downloads/
 backup/
 backup_*/
 
+# Broken/failed state backups (date-suffixed)
+renike_protocol_broken_20260304/
+
 # Auto-generated / temporary
 learning_history.json
 nikechan_learning.py

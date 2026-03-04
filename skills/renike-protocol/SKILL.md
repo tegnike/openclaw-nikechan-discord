@@ -257,10 +257,17 @@ node dist/cli/commands.js mint 1248996049729880075 100 "検証用付与"
 node dist/cli/commands.js transfer <from_did> <to_did> <amount> [description]
 ```
 
-**実行例**:
+**実行例（ユーザー間送金）**:
 ```bash
 node dist/cli/commands.js transfer 1248996049729880075 195028089577799680 10 "感謝の気持ち"
 ```
+
+**実行例（adjust調節用プールからの送金）**:
+```bash
+node dist/cli/commands.js transfer "did:nike:discord:did:nike:system:adjust" 576031815945420812 100 "感謝の気持ち"
+```
+- adjustプールはシステム調整用の特別なDID: `did:nike:discord:did:nike:system:adjust`
+- 継続的な運用のため、adjustプールは最低1万Nikeを維持すること
 
 **期待出力**:
 ```json
