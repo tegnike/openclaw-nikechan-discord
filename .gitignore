@@ -142,6 +142,9 @@ scrapling_env/
 # NikeCoin application data (contains private keys and encrypted data)
 .nike/
 
+# NikeCoin Python libraries (site-packages, 311MB+)
+nikecoin/libs/
+
 # SQLite database files (runtime state)
 *.db
 *.db-shm
