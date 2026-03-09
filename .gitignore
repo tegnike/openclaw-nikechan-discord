@@ -36,6 +36,9 @@ lightpanda
 nanoclaw/
 nullclaw/
 
+# Agent-created projects (may grow large)
+projects/
+
 # GPG keys
 .gnupg/
 
