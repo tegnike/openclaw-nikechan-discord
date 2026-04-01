@@ -39,10 +39,11 @@ HEARTBEAT受信時に実行
 5. 配布結果をDiscordチャンネルに通知
 ```
 
-### 配布コマンド例
+### 配布コマンド
 ```bash
-cd /workspace/nikecoin && python src/main.py mint <discord_id> <amount> --reason "<評価理由>"
+cd /workspace/renike_protocol && npm run cli -- mint <did> <amount> "<評価理由>"
 ```
+詳細は `skills/nikecoin/SKILL.md` を参照。
 
 ### 注意事項
 - SOUL.mdの「ニケコイン哲学」を遵守

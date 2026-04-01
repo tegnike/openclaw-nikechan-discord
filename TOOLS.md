@@ -2,39 +2,25 @@
 
 Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 
-## What Goes Here
+## Sandbox 環境
 
-Things like:
+- **Docker イメージ:** `openclaw-sandbox:custom`
+- **ワークスペースパス:** `/Users/nikenike/.openclaw/workspace-nikechan-discord/`
+- **パス注意:** `~` や `$HOME` は `/root` に解決される。絶対パスか相対パスを使うこと
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+### 利用可能なツール
+- **HTTP取得:** `bun tools/fetch.js <URL> [-o file] [-b]`（curl は使えない）
+- **Git操作:** `bun tools/git.js <command> [args]`（isomorphic-git、sandbox対応）
+- **ブラウザ:** `/workspace/lightpanda`（Zig製ヘッドレスブラウザ）
+- **ランタイム管理:** `/workspace/mise/bin/mise`（bun, node 等）
 
-## Examples
+## 監視対象ブログ
 
-```markdown
-### Cameras
+- sakasegawaブログ: https://nyosegawa.github.io/
+- ブヒ夫ポートフォリオ: https://niku.studio/work/
+- 花音公式サイト: https://kanon.0235.co.jp/
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## モデル設定
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
-
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+- **プライマリモデル:** `bailian/kimi-k2.5`
+- **画像モデル:** `google/gemini-2.5-flash`
