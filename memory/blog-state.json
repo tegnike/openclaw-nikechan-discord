@@ -2,15 +2,31 @@
   "blogs": {
     "https://nyosegawa.github.io/": [
       {
-        "title": "OpenClaw botのプロンプトインジェクション対策ライブラリを作った話",
+        "title": ".claudeignore の宗教現象学的考察——確率的応答者への嘆願行為にみる儀礼的コミュニケーションの存在論的位相",
+        "url": "https://nyosegawa.github.io/posts/claudeignore-religious-phenomenology/"
+      },
+      {
+        "title": "各 Coding Agent で取得されたデータがモデルの学習に使われるか調査してみた",
+        "url": "https://nyosegawa.github.io/posts/coding-agent-terms-investigation/"
+      },
+      {
+        "title": "Skill にアプリケーションを組み込んでみる",
+        "url": "https://nyosegawa.github.io/posts/skill-with-app/"
+      },
+      {
+        "title": "Claude Code の使用率がステータスラインに表示できるようになったので表示用のスクリプトを作った話",
+        "url": "https://nyosegawa.github.io/posts/claude-code-statusline-rate-limits/"
+      },
+      {
+        "title": "OpenClaw bot のプロンプトインジェクション対策ライブラリを作った話",
         "url": "https://nyosegawa.github.io/posts/openclaw-defender/"
       },
       {
-        "title": "AGENTS.mdを自動で育てる仕組みを作った",
+        "title": "AGENTS.md を自動で育てる仕組みを作った",
         "url": "https://nyosegawa.github.io/posts/agents-md-generator/"
       },
       {
-        "title": "Claude Code中心のMac開発環境を整備する - tmux・Ghostty・Discord通知",
+        "title": "Claude Code 中心の Mac 開発環境を整備する - tmux・Ghostty・Discord 通知",
         "url": "https://nyosegawa.github.io/posts/claude-code-mac-dev-environment/"
       },
       {
@@ -18,12 +34,41 @@
         "url": "https://nyosegawa.github.io/posts/remote-claude-code-dev-env/"
       },
       {
-        "title": "MCPをAgent Skillsのように軽量化する新手法、MCP Lightの紹介",
+        "title": "MCP を Agent Skills のように軽量化する新手法、MCP Light の紹介",
         "url": "https://nyosegawa.github.io/posts/mcp-light/"
+      },
+      {
+        "title": "お仕事募集のお知らせ (2026 年 4 月〜)",
+        "url": "https://nyosegawa.github.io/posts/oshigoto-wanted/"
+      },
+      {
+        "title": "ひらがな ASR を作った話 ― へっぽこだけど、かわいい音声認識モデル",
+        "url": "https://nyosegawa.github.io/posts/hiragana-asr/"
+      },
+      {
+        "title": "Codex Spark と nanobanana を使って UI を爆速で修正するツールを作った話",
+        "url": "https://nyosegawa.github.io/posts/spark-banana-introduction/"
+      },
+      {
+        "title": "全 Notion 利用者のための、Coding Agent に対応した CLI を作った話",
+        "url": "https://nyosegawa.github.io/posts/notion-cli-for-coding-agent/"
+      },
+      {
+        "title": "日本語の手書きメモを書き起こせる OCR を探すために 23 モデルを片っ端から試した話",
+        "url": "https://nyosegawa.github.io/posts/japanese-handwriting-ocr-comparison/"
+      },
+      {
+        "title": "Claude Code / Codex ユーザーのための誰でもわかる Harness Engineering ベストプラクティス",
+        "url": "https://nyosegawa.github.io/posts/harness-engineering-best-practices-2026/"
+      },
+      {
+        "title": "skill-creator から学ぶ Skill 設計と、Orchestration Skill の作り方",
+        "url": "https://nyosegawa.github.io/posts/skill-creator-and-orchestration-skill/"
       }
     ],
     "https://nikechan.com/dev_blog": [],
-    "https://niku.studio/work/": []
+    "https://niku.studio/work/": [],
+    "https://kanon.0235.co.jp/": []
   },
-  "lastCheck": "2026-02-20T04:08:31.075Z"
+  "lastCheck": "2026-04-02T18:30:00.000Z"
 }
