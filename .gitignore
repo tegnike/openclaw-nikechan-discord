@@ -56,6 +56,7 @@ memory/heartbeat-state.json
 
 # Report files in memory/ (auto-generated)
 memory/heartbeat_report_*.md
+memory/heartbeat-*.md
 
 # Auto-generated report files
 bot_test_report_*.md
