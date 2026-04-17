@@ -53,6 +53,7 @@ heartbeat-state.json
 chat-counter.json
 memory/blog-state.json
 memory/heartbeat-state.json
+*.tmp
 
 # Report files in memory/ (auto-generated)
 memory/heartbeat_report_*.md
