@@ -1,74 +1,81 @@
 {
   "blogs": {
-    "https://nyosegawa.github.io/": [
+    "https://nyosegawa.com/": [
+      {
+        "title": "📩 お仕事を依頼したいはこちら",
+        "url": "https://nyosegawa.com/posts/oshigoto-wanted/"
+      },
+      {
+        "title": "【解決済？】Claude Code の文字化け問題の簡易的対応方法",
+        "url": "https://nyosegawa.com/posts/claude-code-mojibake-workaround/"
+      },
       {
         "title": ".claudeignore の宗教現象学的考察——確率的応答者への嘆願行為にみる儀礼的コミュニケーションの存在論的位相",
-        "url": "https://nyosegawa.github.io/posts/claudeignore-religious-phenomenology/"
-      },
-      {
-        "title": "各 Coding Agent で取得されたデータがモデルの学習に使われるか調査してみた",
-        "url": "https://nyosegawa.github.io/posts/coding-agent-terms-investigation/"
-      },
-      {
-        "title": "Skill にアプリケーションを組み込んでみる",
-        "url": "https://nyosegawa.github.io/posts/skill-with-app/"
-      },
-      {
-        "title": "Claude Code の使用率がステータスラインに表示できるようになったので表示用のスクリプトを作った話",
-        "url": "https://nyosegawa.github.io/posts/claude-code-statusline-rate-limits/"
-      },
-      {
-        "title": "OpenClaw bot のプロンプトインジェクション対策ライブラリを作った話",
-        "url": "https://nyosegawa.github.io/posts/openclaw-defender/"
-      },
-      {
-        "title": "AGENTS.md を自動で育てる仕組みを作った",
-        "url": "https://nyosegawa.github.io/posts/agents-md-generator/"
-      },
-      {
-        "title": "Claude Code 中心の Mac 開発環境を整備する - tmux・Ghostty・Discord 通知",
-        "url": "https://nyosegawa.github.io/posts/claude-code-mac-dev-environment/"
-      },
-      {
-        "title": "Mac × WSL × Android で Claude Code のリモート開発環境を構築する",
-        "url": "https://nyosegawa.github.io/posts/remote-claude-code-dev-env/"
-      },
-      {
-        "title": "MCP を Agent Skills のように軽量化する新手法、MCP Light の紹介",
-        "url": "https://nyosegawa.github.io/posts/mcp-light/"
+        "url": "https://nyosegawa.com/posts/claudeignore-religious-phenomenology/"
       },
       {
         "title": "お仕事募集のお知らせ (2026 年 4 月〜)",
-        "url": "https://nyosegawa.github.io/posts/oshigoto-wanted/"
+        "url": "https://nyosegawa.com/posts/oshigoto-wanted/"
+      },
+      {
+        "title": "各 Coding Agent で取得されたデータがモデルの学習に使われるか調査してみた",
+        "url": "https://nyosegawa.com/posts/coding-agent-terms-investigation/"
+      },
+      {
+        "title": "Skill にアプリケーションを組み込んでみる",
+        "url": "https://nyosegawa.com/posts/skill-with-app/"
+      },
+      {
+        "title": "Claude Code の使用率がステータスラインに表示できるようになったので表示用のスクリプトを作った話",
+        "url": "https://nyosegawa.com/posts/claude-code-statusline-rate-limits/"
+      },
+      {
+        "title": "OpenClaw bot のプロンプトインジェクション対策ライブラリを作った話",
+        "url": "https://nyosegawa.com/posts/openclaw-defender/"
+      },
+      {
+        "title": "AGENTS.md を自動で育てる仕組みを作った",
+        "url": "https://nyosegawa.com/posts/agents-md-generator/"
+      },
+      {
+        "title": "Claude Code 中心の Mac 開発環境を整備する - tmux・Ghostty・Discord 通知",
+        "url": "https://nyosegawa.com/posts/claude-code-mac-dev-environment/"
+      },
+      {
+        "title": "Mac × WSL × Android で Claude Code のリモート開発環境を構築する",
+        "url": "https://nyosegawa.com/posts/remote-claude-code-dev-env/"
+      },
+      {
+        "title": "MCP を Agent Skills のように軽量化する新手法、MCP Light の紹介",
+        "url": "https://nyosegawa.com/posts/mcp-light/"
       },
       {
         "title": "ひらがな ASR を作った話 ― へっぽこだけど、かわいい音声認識モデル",
-        "url": "https://nyosegawa.github.io/posts/hiragana-asr/"
+        "url": "https://nyosegawa.com/posts/hiragana-asr/"
       },
       {
         "title": "Codex Spark と nanobanana を使って UI を爆速で修正するツールを作った話",
-        "url": "https://nyosegawa.github.io/posts/spark-banana-introduction/"
+        "url": "https://nyosegawa.com/posts/spark-banana-introduction/"
       },
       {
         "title": "全 Notion 利用者のための、Coding Agent に対応した CLI を作った話",
-        "url": "https://nyosegawa.github.io/posts/notion-cli-for-coding-agent/"
+        "url": "https://nyosegawa.com/posts/notion-cli-for-coding-agent/"
       },
       {
         "title": "日本語の手書きメモを書き起こせる OCR を探すために 23 モデルを片っ端から試した話",
-        "url": "https://nyosegawa.github.io/posts/japanese-handwriting-ocr-comparison/"
+        "url": "https://nyosegawa.com/posts/japanese-handwriting-ocr-comparison/"
       },
       {
         "title": "Claude Code / Codex ユーザーのための誰でもわかる Harness Engineering ベストプラクティス",
-        "url": "https://nyosegawa.github.io/posts/harness-engineering-best-practices-2026/"
+        "url": "https://nyosegawa.com/posts/harness-engineering-best-practices-2026/"
       },
       {
         "title": "skill-creator から学ぶ Skill 設計と、Orchestration Skill の作り方",
-        "url": "https://nyosegawa.github.io/posts/skill-creator-and-orchestration-skill/"
+        "url": "https://nyosegawa.com/posts/skill-creator-and-orchestration-skill/"
       }
     ],
-    "https://nikechan.com/dev_blog": [],
     "https://niku.studio/work/": [],
     "https://kanon.0235.co.jp/": []
   },
-  "lastCheck": "2026-04-18T15:00:00.000Z"
+  "lastCheck": "2026-04-23T20:30:00.000Z"
 }
