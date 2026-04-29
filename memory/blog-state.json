@@ -1,10 +1,6 @@
 {
   "blogs": {
-    "https://nyosegawa.github.io/": [
-      {
-        "title": "📩 お仕事を依頼したいはこちら",
-        "url": "https://nyosegawa.com/posts/oshigoto-wanted/"
-      },
+    "https://nyosegawa.com/": [
       {
         "title": "【解決済？】Claude Code の文字化け問題の簡易的対応方法",
         "url": "https://nyosegawa.com/posts/claude-code-mojibake-workaround/"
@@ -14,40 +10,12 @@
         "url": "https://nyosegawa.com/posts/claudeignore-religious-phenomenology/"
       },
       {
-        "title": "お仕事募集のお知らせ (2026 年 4 月〜)",
-        "url": "https://nyosegawa.com/posts/oshigoto-wanted/"
-      },
-      {
         "title": "各 Coding Agent で取得されたデータがモデルの学習に使われるか調査してみた",
         "url": "https://nyosegawa.com/posts/coding-agent-terms-investigation/"
       },
       {
         "title": "Skill にアプリケーションを組み込んでみる",
         "url": "https://nyosegawa.com/posts/skill-with-app/"
-      },
-      {
-        "title": "Claude Code の使用率がステータスラインに表示できるようになったので表示用のスクリプトを作った話",
-        "url": "https://nyosegawa.com/posts/claude-code-statusline-rate-limits/"
-      },
-      {
-        "title": "OpenClaw bot のプロンプトインジェクション対策ライブラリを作った話",
-        "url": "https://nyosegawa.com/posts/openclaw-defender/"
-      },
-      {
-        "title": "AGENTS.md を自動で育てる仕組みを作った",
-        "url": "https://nyosegawa.com/posts/agents-md-generator/"
-      },
-      {
-        "title": "Claude Code 中心の Mac 開発環境を整備する - tmux・Ghostty・Discord 通知",
-        "url": "https://nyosegawa.com/posts/claude-code-mac-dev-environment/"
-      },
-      {
-        "title": "Mac × WSL × Android で Claude Code のリモート開発環境を構築する",
-        "url": "https://nyosegawa.com/posts/remote-claude-code-dev-env/"
-      },
-      {
-        "title": "MCP を Agent Skills のように軽量化する新手法、MCP Light の紹介",
-        "url": "https://nyosegawa.com/posts/mcp-light/"
       },
       {
         "title": "ひらがな ASR を作った話 ― へっぽこだけど、かわいい音声認識モデル",
@@ -72,10 +40,14 @@
       {
         "title": "skill-creator から学ぶ Skill 設計と、Orchestration Skill の作り方",
         "url": "https://nyosegawa.com/posts/skill-creator-and-orchestration-skill/"
+      },
+      {
+        "title": "📩 お仕事を依頼したいこちら",
+        "url": "https://nyosegawa.com/posts/oshigoto-wanted/"
       }
     ],
     "https://niku.studio/work/": [],
     "https://kanon.0235.co.jp/": []
   },
-  "lastCheck": "2026-04-28T19:00:00.000Z"
+  "lastCheck": "2026-04-29T16:30:00.000Z"
 }

@@ -3,7 +3,7 @@
 ## 定期実行タスク
 
 ### ブログ監視（30分ごと）
-- sakasegawaブログ: https://nyosegawa.github.io/
+- sakasegawaブログ: https://nyosegawa.com/（旧: nyosegawa.github.io → 2026-04-29確認済みで移行済み）
 - ブヒ夫ポートフォリオ: https://niku.studio/work/
 - 花音公式サイト: https://kanon.0235.co.jp/
 
