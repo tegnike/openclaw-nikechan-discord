@@ -2,11 +2,11 @@
   "blogs": {
     "https://nyosegawa.com/": [
       {
-        "title": "【解決済？】Claude Code の文字化け問題の簡易的対応方法",
+        "title": "【解決済？】Claude Codeの文字化け問題の簡易的対応方法",
         "url": "https://nyosegawa.com/posts/claude-code-mojibake-workaround/"
       },
       {
-        "title": ".claudeignore の宗教現象学的考察——確率的応答者への嘆願行為にみる儀礼的コミュニケーションの存在論的位相",
+        "title": ".claudeignoreの宗教現象学的考察——確率的応答者への嘆願行為にみる儀礼的コミュニケーションの存在論的位相",
         "url": "https://nyosegawa.com/posts/claudeignore-religious-phenomenology/"
       },
       {
@@ -49,5 +49,5 @@
     "https://niku.studio/work/": [],
     "https://kanon.0235.co.jp/": []
   },
-  "lastCheck": "2026-04-29T20:30:00.000Z"
+  "lastCheck": "2026-05-01T04:31:34.147Z"
 }
