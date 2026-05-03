@@ -137,6 +137,10 @@ mise-install.sh
 mise/
 reverse_soul.py
 reset-workspace.sh
+clean_workspace.sh
+
+# Integrity check files (auto-generated)
+.integrity_check.md5
 
 # Duplicate / test files
 SOUL_original.md
