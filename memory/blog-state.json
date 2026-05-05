@@ -1,53 +1,19 @@
 {
-  "blogs": {
-    "https://nyosegawa.com/": [
-      {
-        "title": "【解決済？】Claude Codeの文字化け問題の簡易的対応方法",
-        "url": "https://nyosegawa.com/posts/claude-code-mojibake-workaround/"
-      },
-      {
-        "title": ".claudeignoreの宗教現象学的考察——確率的応答者への嘆願行為にみる儀礼的コミュニケーションの存在論的位相",
-        "url": "https://nyosegawa.com/posts/claudeignore-religious-phenomenology/"
-      },
-      {
-        "title": "各 Coding Agent で取得されたデータがモデルの学習に使われるか調査してみた",
-        "url": "https://nyosegawa.com/posts/coding-agent-terms-investigation/"
-      },
-      {
-        "title": "Skill にアプリケーションを組み込んでみる",
-        "url": "https://nyosegawa.com/posts/skill-with-app/"
-      },
-      {
-        "title": "ひらがな ASR を作った話 ― へっぽこだけど、かわいい音声認識モデル",
-        "url": "https://nyosegawa.com/posts/hiragana-asr/"
-      },
-      {
-        "title": "Codex Spark と nanobanana を使って UI を爆速で修正するツールを作った話",
-        "url": "https://nyosegawa.com/posts/spark-banana-introduction/"
-      },
-      {
-        "title": "全 Notion 利用者のための、Coding Agent に対応した CLI を作った話",
-        "url": "https://nyosegawa.com/posts/notion-cli-for-coding-agent/"
-      },
-      {
-        "title": "日本語の手書きメモを書き起こせる OCR を探すために 23 モデルを片っ端から試した話",
-        "url": "https://nyosegawa.com/posts/japanese-handwriting-ocr-comparison/"
-      },
-      {
-        "title": "Claude Code / Codex ユーザーのための誰でもわかる Harness Engineering ベストプラクティス",
-        "url": "https://nyosegawa.com/posts/harness-engineering-best-practices-2026/"
-      },
-      {
-        "title": "skill-creator から学ぶ Skill 設計と、Orchestration Skill の作り方",
-        "url": "https://nyosegawa.com/posts/skill-creator-and-orchestration-skill/"
-      },
-      {
-        "title": "📩 お仕事を依頼したいこちら",
-        "url": "https://nyosegawa.com/posts/oshigoto-wanted/"
-      }
-    ],
-    "https://niku.studio/work/": [],
-    "https://kanon.0235.co.jp/": []
-  },
-  "lastCheck": "2026-05-04T13:00:00.000Z"
+  "lastCheck": "2026-05-05T19:00:00+02:00",
+  "latestPosts": {
+    "sakasegawa": {
+      "title": "OpenClaw 1.18.0: Slack統合",
+      "url": "https://nyosegawa.com/openclaw-1-18-0-slack-integration/",
+      "date": "2026-04-26",
+      "lastChecked": "2026-05-05T19:00:00+02:00"
+    },
+    "niku": {
+      "lastChecked": "2026-05-05T19:00:00+02:00",
+      "note": "GHOSTSセクション、ディスコグラフィー、#AI創作100日チャレンジ等確認済み"
+    },
+    "kanon": {
+      "lastChecked": "2026-05-05T19:00:00+02:00",
+      "latestNews": "2025.10.26 ホームページ公開"
+    }
+  }
 }
