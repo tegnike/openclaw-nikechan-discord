@@ -62,7 +62,10 @@ memory/heartbeat-*.md
 # Auto-generated report files
 bot_test_report.md
 bot_test_report_*.md
+bot_test_latest.md
+bot_test_message_*.md
 discord_message_bot_test_*.md
+discord_message_bot_test_latest.md
 heartbeat_report_*.md
 periodic_task_report_*.txt
 discord_bot_test_*.txt
