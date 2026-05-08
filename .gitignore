@@ -59,6 +59,7 @@ memory/blog_prev/
 # Report files in memory/ (auto-generated)
 memory/heartbeat_report_*.md
 memory/heartbeat-*.md
+memory/cron_report_*.md
 
 # Auto-generated report files
 bot_test_report.md
