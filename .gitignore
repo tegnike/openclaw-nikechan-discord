@@ -193,3 +193,6 @@ nikecoin/ignition/deployments/
 *.db
 *.db-shm
 *.db-wal
+
+# Runtime data directory
+data/
