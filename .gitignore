@@ -79,6 +79,8 @@ nikecoin_evaluation_*.json
 
 # Backups
 *.backup
+nikke_backups/
+nikke_backup_*/
 
 .local/
 aituber-kit-main/
